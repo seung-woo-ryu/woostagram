@@ -1,2 +1,21 @@
 spring:
   profiles: dev
+  h2:
+    # 앱 실행하고 localho2:8080/h2로 접속하면 웹 DB 인터페이스 사용 가능하게 설정.
+    console:
+      enabled: true
+      path: /h2
+
+  datasource:
+    # ToDo: 나중에 알아보자.
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+
+  jpa:
+    # 쿼리 날릴 때 console에 sql 보여주기 위한 설정
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
