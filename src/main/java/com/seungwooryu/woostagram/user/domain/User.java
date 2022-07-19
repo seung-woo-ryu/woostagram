@@ -2,11 +2,14 @@ package com.seungwooryu.woostagram.user.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
 @Getter
+@RequiredArgsConstructor
 public class User extends BaseEntity {
 
     @Id
@@ -15,22 +18,22 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(name = "email", unique = true, nullable = false)
-    private String email;
+    private final String email;
 
     @Column(name = "name", unique = true, nullable = false)
-    private String name;
+    private final String name;
 
     @Column(name = "nickname",nullable = false)
-    private String nickname;
+    private final String nickname;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private final String password;
 
     @Column(name = "comment", nullable = false)
-    private String comment;
+    private final String comment;
 
     @Column(name = "profile_url", nullable = false)
-    private String profileUrl;
+    private final String profileUrl;
 }
 
 

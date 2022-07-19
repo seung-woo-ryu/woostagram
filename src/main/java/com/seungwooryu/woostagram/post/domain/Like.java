@@ -3,6 +3,7 @@ package com.seungwooryu.woostagram.post.domain;
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.user.domain.User;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name ="likes")
 @Getter
+@RequiredArgsConstructor
 public class Like extends BaseEntity {
 
     @Id
@@ -19,9 +21,9 @@ public class Like extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private User user;
+    private final User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
-    private Post post;
+    private final Post post;
 }
