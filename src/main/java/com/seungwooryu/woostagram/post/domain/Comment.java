@@ -2,15 +2,14 @@ package com.seungwooryu.woostagram.post.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.user.domain.User;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -18,13 +17,23 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @Column(name = "contents", nullable = false, length = 1000)
-    private final String contents;
+    private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private final User user;
+    private User authorId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
-    private final Post post;
+    private Post postId;
+
+    public Comment(String contents, User authorId, Post postId) {
+        this.contents = contents;
+        this.authorId = authorId;
+        this.postId = postId;
+    }
+
+    public void updateContents(String contents){
+        this.contents = contents;
+    }
 }
