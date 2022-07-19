@@ -10,14 +10,19 @@ import javax.persistence.*;
 @Table(name = "comments")
 @Getter
 public class Comment extends BaseEntity {
-    @Column(name = "contents", unique = false, nullable = false)
-    private String contents;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @ManyToOne
+    @Column(name = "data", nullable = false, length = 1000)
+    private String data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
     private Post post;
 }

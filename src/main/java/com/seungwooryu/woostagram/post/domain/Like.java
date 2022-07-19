@@ -11,13 +11,17 @@ import javax.persistence.*;
 @Table(name ="likes")
 @Getter
 public class Like extends BaseEntity {
-/*
-    @ManyToOne
+
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
     private Post post;
-*/
 }
