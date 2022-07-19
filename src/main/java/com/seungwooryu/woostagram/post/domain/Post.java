@@ -2,12 +2,14 @@ package com.seungwooryu.woostagram.post.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.user.domain.User;
-import lombok.Getter;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "posts")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseEntity {
 
     @Id
@@ -23,5 +25,20 @@ public class Post extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private User user;
+    private User authorId;
+
+    public Post(String contents, String imageUrl, User authorId) {
+        this.contents = contents;
+        this.imageUrl = imageUrl;
+        this.authorId = authorId;
+    }
+
+    public void updateImageUrl(String imgUrl){
+        this.imageUrl = imgUrl;
+    }
+
+    public void updateContents(String contents){
+        this.contents = contents;
+    }
+
 }
