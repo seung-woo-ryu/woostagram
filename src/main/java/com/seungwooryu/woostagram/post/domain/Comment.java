@@ -21,20 +21,20 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private User authorId;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
-    private Post postId;
+    private Post post;
 
-    private Comment(String contents, User authorId, Post postId) {
+    private Comment(String contents, User user, Post post) {
         this.contents = contents;
-        this.authorId = authorId;
-        this.postId = postId;
+        this.user = user;
+        this.post = post;
     }
 
-    public static Comment of(String contents, User authorId, Post postId) {
-        return new Comment(contents, authorId, postId);
+    public static Comment of(String contents, User user, Post post) {
+        return new Comment(contents, user, post);
     }
     public void updateContents(String contents){
         this.contents = contents;

@@ -20,18 +20,18 @@ public class Like extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private User authorId;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id",referencedColumnName = "id")
-    private Post postId;
+    private Post post;
 
-    private Like(User authorId, Post postId) {
-        this.authorId = authorId;
-        this.postId = postId;
+    private Like(User user, Post post) {
+        this.user = user;
+        this.post = post;
     }
 
-    public static Like of(User authorId, Post postId) {
-        return new Like(authorId, postId);
+    public static Like of(User user, Post post) {
+        return new Like(user, post);
     }
 }
