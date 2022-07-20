@@ -34,10 +34,10 @@ public class RepositoryCrudTest {
 
     @Test
     public void create() {
-        User user = new User("tmddn646@naver.com","seungwooryu2","tmddn6452","vvee12","29nam","url_info");
-        Post post = new Post("first posts","img_url_info",user);
-        Like like = new Like(user,post);
-        Comment comment = new Comment("post is good",user,post);
+        User user = User.of("tmddn646@naver.com","seungwooryu2","tmddn6452","vvee12","29nam","url_info");
+        Post post = Post.of("first posts","img_url_info",user);
+        Like like = Like.of(user,post);
+        Comment comment = Comment.of("post is good",user,post);
 
         User savedUser = userRepository.save(user);
         Post savedPost = postRepository.save(post);

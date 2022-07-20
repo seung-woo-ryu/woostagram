@@ -27,12 +27,15 @@ public class Comment extends BaseEntity {
     @JoinColumn(name="post_id",referencedColumnName = "id")
     private Post postId;
 
-    public Comment(String contents, User authorId, Post postId) {
+    private Comment(String contents, User authorId, Post postId) {
         this.contents = contents;
         this.authorId = authorId;
         this.postId = postId;
     }
 
+    public static Comment of(String contents, User authorId, Post postId) {
+        return new Comment(contents, authorId, postId);
+    }
     public void updateContents(String contents){
         this.contents = contents;
     }

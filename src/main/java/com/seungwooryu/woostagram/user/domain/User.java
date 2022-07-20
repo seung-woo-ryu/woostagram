@@ -37,7 +37,7 @@ public class User extends BaseEntity {
     @Column(name = "profile_url", nullable = false)
     private String profileUrl;
 
-    public User(String email, String name, String nickname, String password, String comment, String profileUrl) {
+    private User(String email, String name, String nickname, String password, String comment, String profileUrl) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;
@@ -45,6 +45,11 @@ public class User extends BaseEntity {
         this.comment = comment;
         this.profileUrl = profileUrl;
     }
+
+    public static User of(String email, String name, String nickname, String password, String comment, String profileUrl) {
+        return new User(email,name,nickname, password, comment, profileUrl);
+    }
+
 
     public void updateComment(String comment){
         this.comment = comment;

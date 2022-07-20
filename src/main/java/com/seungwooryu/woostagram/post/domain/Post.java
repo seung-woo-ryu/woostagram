@@ -27,11 +27,16 @@ public class Post extends BaseEntity {
     @JoinColumn(name="author_id",referencedColumnName = "id")
     private User authorId;
 
-    public Post(String contents, String imageUrl, User authorId) {
+    private Post(String contents, String imageUrl, User authorId) {
         this.contents = contents;
         this.imageUrl = imageUrl;
         this.authorId = authorId;
     }
+
+    public static Post of(String contents, String imageUrl, User authorId) {
+        return new Post(contents, imageUrl, authorId);
+    }
+
 
     public void updateImageUrl(String imgUrl){
         this.imageUrl = imgUrl;
