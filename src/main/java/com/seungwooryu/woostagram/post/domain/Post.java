@@ -25,13 +25,18 @@ public class Post extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name="author_id",referencedColumnName = "id")
-    private User authorId;
+    private User user;
 
-    public Post(String contents, String imageUrl, User authorId) {
+    private Post(String contents, String imageUrl, User user) {
         this.contents = contents;
         this.imageUrl = imageUrl;
-        this.authorId = authorId;
+        this.user = user;
     }
+
+    public static Post of(String contents, String imageUrl, User authorId) {
+        return new Post(contents, imageUrl, authorId);
+    }
+
 
     public void updateImageUrl(String imgUrl){
         this.imageUrl = imgUrl;

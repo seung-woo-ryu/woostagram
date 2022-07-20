@@ -34,10 +34,10 @@ public class RepositoryCrudTest {
 
     @Test
     public void create() {
-        User user = new User("tmddn646@naver.com","seungwooryu2","tmddn6452","vvee12","29nam","url_info");
-        Post post = new Post("first posts","img_url_info",user);
-        Like like = new Like(user,post);
-        Comment comment = new Comment("post is good",user,post);
+        User user = User.of("tmddn646@naver.com","seungwooryu2","tmddn6452","vvee12","29nam","url_info");
+        Post post = Post.of("first posts","img_url_info",user);
+        Like like = Like.of(user,post);
+        Comment comment = Comment.of("post is good",user,post);
 
         User savedUser = userRepository.save(user);
         Post savedPost = postRepository.save(post);
@@ -55,13 +55,13 @@ public class RepositoryCrudTest {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
         assertThat(getUser).isNotNull();
 
-        List<Post> getPosts = postRepository.findByAuthorId(getUser);
+        List<Post> getPosts = postRepository.findByAuthorId(getUser.getId());
         assertThat(getPosts).isNotNull();
 
-        Like getLike = likeRepository.findByAuthorIdAndPostId(getUser,getPosts.get(0));
+        Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(), getPosts.get(0).getId());
         assertThat(getLike).isNotNull();
 
-        Comment getComment = commentRepository.findByAuthorIdAndPostId(getUser,getPosts.get(0));
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPosts.get(0).getId());
         assertThat(getComment).isNotNull();
     }
 
@@ -83,9 +83,9 @@ public class RepositoryCrudTest {
     @Test
     public void update() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
-        Post getPost = postRepository.findByAuthorId(getUser).get(0);
+        Post getPost = postRepository.findByAuthorId(getUser.getId()).get(0);
 
-        Comment getComment = commentRepository.findByAuthorIdAndPostId(getUser,getPost);
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
 
         String updatedComments = "this is updated comments!";
         getComment.updateContents(updatedComments);
@@ -98,9 +98,9 @@ public class RepositoryCrudTest {
     @Test
     public void delete() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
-        Post getPost = postRepository.findByAuthorId(getUser).get(0);
-        Like getLike = likeRepository.findByAuthorIdAndPostId(getUser,getPost);
-        Comment getComment = commentRepository.findByAuthorIdAndPostId(getUser,getPost);
+        Post getPost = postRepository.findByAuthorId(getUser.getId()).get(0);
+        Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
 
         commentRepository.delete(getComment);
         likeRepository.delete(getLike);
