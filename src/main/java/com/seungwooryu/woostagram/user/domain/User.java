@@ -50,7 +50,6 @@ public class User extends BaseEntity {
         return new User(email,name,nickname, password, comment, profileUrl);
     }
 
-
     public void updateComment(String comment){
         this.comment = comment;
     }
