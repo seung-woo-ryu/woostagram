@@ -2,15 +2,14 @@ package com.seungwooryu.woostagram.common.utils;
 
 import com.seungwooryu.woostagram.common.utils.ApiUtils.ApiResult;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import javax.validation.constraints.Null;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class ApiUtilsTest {
@@ -19,7 +18,8 @@ class ApiUtilsTest {
     @DisplayName("ApiResult 성공")
     void success() {
         //given
-        String json = "json";
+        List<String> json = new ArrayList<>();
+        json.add("json");
 
         //when
         ApiResult<String> apiResult = ApiUtils.success(json);
@@ -40,7 +40,7 @@ class ApiUtilsTest {
         var throwable = new Throwable(String.valueOf(NullPointerException.class));
 
         //when
-        var apiResult = ApiUtils.error(throwable, status);
+        var apiResult = ApiUtils.error(throwable.getMessage(),status);
 
         //then
         log.info("ApiResult(error): {}", apiResult);
