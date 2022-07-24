@@ -4,6 +4,9 @@ import com.seungwooryu.woostagram.common.utils.ApiUtils.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -13,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 class ApiUtilsTest {
-
     @Test
     @DisplayName("ApiResult 성공")
     void success() {

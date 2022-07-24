@@ -1,16 +1,13 @@
 package com.seungwooryu.woostagram.common.utils;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class ApiUtils {
     public static <T> ApiResult<T> success(List<T> response) {
@@ -49,6 +46,11 @@ public class ApiUtils {
             private Object value;
             private String reason;
 
+            private FieldError(String field, Object value, String reason) {
+                this.field = field;
+                this.value = value;
+                this.reason = reason;
+            }
             private FieldError(org.springframework.validation.FieldError fieldError) {
                 this.field = fieldError.getField();
                 this.value = (Object) fieldError.getRejectedValue();
@@ -56,6 +58,9 @@ public class ApiUtils {
             }
             public static FieldError createFieldError(org.springframework.validation.FieldError fieldError) {
                 return new FieldError(fieldError);
+            }
+            public static FieldError createFieldError(String field, Object value, String reason) {
+                return new FieldError(field, value, reason);
             }
         }
 

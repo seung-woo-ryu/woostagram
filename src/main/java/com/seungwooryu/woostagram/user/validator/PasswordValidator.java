@@ -1,7 +1,6 @@
 package com.seungwooryu.woostagram.user.validator;
 
 import com.seungwooryu.woostagram.user.annotation.Password;
-import com.seungwooryu.woostagram.user.dto.SignupDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

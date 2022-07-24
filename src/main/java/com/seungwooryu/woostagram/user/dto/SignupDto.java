@@ -1,10 +1,12 @@
 package com.seungwooryu.woostagram.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.seungwooryu.woostagram.user.annotation.Password;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Getter

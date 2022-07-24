@@ -1,10 +1,10 @@
 package com.seungwooryu.woostagram.user.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.seungwooryu.woostagram.user.dto.SignupDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "users")
 @Getter
 @NoArgsConstructor
+@ToString
 public class User extends BaseEntity {
 
     @Id
@@ -22,10 +23,10 @@ public class User extends BaseEntity {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "nickname",nullable = false)
+    @Column(name = "nickname", unique = true, nullable = false)
     private String nickname;
 
     @Column(name = "password", nullable = false)
@@ -48,6 +49,13 @@ public class User extends BaseEntity {
 
     public static User of(String email, String name, String nickname, String password, String comment, String profileUrl) {
         return new User(email,name,nickname, password, comment, profileUrl);
+    }
+
+    public static User createUserBySignupDto(SignupDto signupDto) {
+        String comment = " ";
+        String profileUrl = "default_profile_url";
+
+        return new User(signupDto.getEmail(), signupDto.getName(), signupDto.getNickname(),signupDto.getPassword(), comment, profileUrl);
     }
 
     public void updateComment(String comment){
