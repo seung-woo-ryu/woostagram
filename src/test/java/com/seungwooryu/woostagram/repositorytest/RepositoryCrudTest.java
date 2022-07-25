@@ -55,7 +55,7 @@ public class RepositoryCrudTest {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
         assertThat(getUser).isNotNull();
 
-        List<Post> getPosts = postRepository.findByAuthorId(getUser.getId());
+        List<Post> getPosts = postRepository.findAllByAuthorId(getUser.getId());
         assertThat(getPosts).isNotNull();
 
         Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(), getPosts.get(0).getId());
@@ -83,7 +83,7 @@ public class RepositoryCrudTest {
     @Test
     public void update() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
-        Post getPost = postRepository.findByAuthorId(getUser.getId()).get(0);
+        Post getPost = postRepository.findAllByAuthorId(getUser.getId()).get(0);
 
         Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
 
@@ -98,7 +98,7 @@ public class RepositoryCrudTest {
     @Test
     public void delete() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
-        Post getPost = postRepository.findByAuthorId(getUser.getId()).get(0);
+        Post getPost = postRepository.findAllByAuthorId(getUser.getId()).get(0);
         Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
         Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
 
