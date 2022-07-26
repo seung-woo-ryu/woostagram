@@ -51,14 +51,17 @@ public class ApiUtils {
                 this.value = value;
                 this.reason = reason;
             }
+
             private FieldError(org.springframework.validation.FieldError fieldError) {
                 this.field = fieldError.getField();
                 this.value = (Object) fieldError.getRejectedValue();
                 this.reason = fieldError.getDefaultMessage();
             }
+
             public static FieldError createFieldError(org.springframework.validation.FieldError fieldError) {
                 return new FieldError(fieldError);
             }
+
             public static FieldError createFieldError(String field, Object value, String reason) {
                 return new FieldError(field, value, reason);
             }
