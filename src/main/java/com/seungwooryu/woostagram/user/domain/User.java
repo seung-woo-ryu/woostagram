@@ -14,7 +14,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 public class User extends BaseEntity {
-
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,20 +47,21 @@ public class User extends BaseEntity {
     }
 
     public static User of(String email, String name, String nickname, String password, String comment, String profileUrl) {
-        return new User(email,name,nickname, password, comment, profileUrl);
+        return new User(email, name, nickname, password, comment, profileUrl);
     }
 
     public static User createUserBySignupDto(SignupDto signupDto) {
         String comment = " ";
         String profileUrl = "default_profile_url";
 
-        return new User(signupDto.getEmail(), signupDto.getName(), signupDto.getNickname(),signupDto.getPassword(), comment, profileUrl);
+        return new User(signupDto.getEmail(), signupDto.getName(), signupDto.getNickname(), signupDto.getPassword(), comment, profileUrl);
     }
 
-    public void updateComment(String comment){
+    public void updateComment(String comment) {
         this.comment = comment;
     }
-    public void updateProfileUrl(String profileUrl){
+
+    public void updateProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
     }
 }

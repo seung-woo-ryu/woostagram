@@ -18,9 +18,10 @@ import static java.util.stream.Collectors.toList;
 public class GeneralExceptionHandler {
 
     /**
-     *  javax.validation.Valid or @Validated에 @RequestBody, @RequestPart으로 binding error 발생시 발생한다.
-     *  HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
-     *  @ModelAttribute로 바인딩 exception시에는 BindException error 발생.
+     * javax.validation.Valid or @Validated에 @RequestBody, @RequestPart으로 binding error 발생시 발생한다.
+     * HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
+     *
+     * @ModelAttribute로 바인딩 exception시에는 BindException error 발생.
      */
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
