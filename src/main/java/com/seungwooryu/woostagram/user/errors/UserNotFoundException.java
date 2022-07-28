@@ -4,8 +4,8 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
-public class UserNotFoundException extends CustomException {
-    public UserNotFoundException(List<FieldError> fieldErrors) {
+public class AuthenticationException extends CustomException {
+    public AuthenticationException(List<FieldError> fieldErrors) {
         super(fieldErrors);
     }
 }
