@@ -15,11 +15,11 @@ public class ApiUtils {
     }
 
     public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
-        return new ApiResult<>(false, null, new ApiError(status, FieldErrors));
+        return new ApiResult<>(false, null, new ApiError(message, status, FieldErrors));
     }
 
     public static ApiResult<?> error(String message, HttpStatus status) {
-        return new ApiResult<>(false, null, new ApiError(status));
+        return new ApiResult<>(false, null, new ApiError(message, status));
     }
 
     @ToString
@@ -27,17 +27,17 @@ public class ApiUtils {
     @RequiredArgsConstructor
     public static class ApiError {
         private final String message;
-        private final List<FieldError> errors;
+        private final List<FieldError> fieldErrors;
         private final int status;
 
-        ApiError(HttpStatus status) {
-            this(status, new ArrayList<FieldError>());
+        ApiError(String message, HttpStatus status) {
+            this(message, status, new ArrayList<FieldError>());
         }
 
-        ApiError(HttpStatus status, List<FieldError> fieldErrors) {
-            this.message = status.getReasonPhrase();
+        ApiError(String message, HttpStatus status, List<FieldError> fieldErrors) {
+            this.message = message;
             this.status = status.value();
-            this.errors = fieldErrors;
+            this.fieldErrors = fieldErrors;
         }
 
         @Getter
@@ -51,14 +51,17 @@ public class ApiUtils {
                 this.value = value;
                 this.reason = reason;
             }
+
             private FieldError(org.springframework.validation.FieldError fieldError) {
                 this.field = fieldError.getField();
                 this.value = (Object) fieldError.getRejectedValue();
                 this.reason = fieldError.getDefaultMessage();
             }
+
             public static FieldError createFieldError(org.springframework.validation.FieldError fieldError) {
                 return new FieldError(fieldError);
             }
+
             public static FieldError createFieldError(String field, Object value, String reason) {
                 return new FieldError(field, value, reason);
             }
