@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,11 +15,11 @@ public class ApiUtils {
     }
 
     public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
-        return new ApiResult<>(false, Collections.emptyList(), new ApiError(status, FieldErrors));
+        return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status, FieldErrors));
     }
 
     public static ApiResult<?> error(String message, HttpStatus status) {
-        return new ApiResult<>(false, Collections.emptyList(), new ApiError(status));
+        return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status));
     }
 
     @ToString
@@ -28,17 +27,17 @@ public class ApiUtils {
     @RequiredArgsConstructor
     public static class ApiError {
         private final String message;
-        private final List<FieldError> errors;
+        private final List<FieldError> fieldErrors;
         private final int status;
 
-        ApiError(HttpStatus status) {
-            this(status, new ArrayList<FieldError>());
+        ApiError(String message, HttpStatus status) {
+            this(message, status, Collections.emptyList());
         }
 
-        ApiError(HttpStatus status, List<FieldError> fieldErrors) {
-            this.message = status.getReasonPhrase();
+        ApiError(String message, HttpStatus status, List<FieldError> fieldErrors) {
+            this.message = message;
             this.status = status.value();
-            this.errors = fieldErrors;
+            this.fieldErrors = fieldErrors;
         }
 
         @Getter

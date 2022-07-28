@@ -8,12 +8,10 @@ import com.seungwooryu.woostagram.post.repository.LikeRepository;
 import com.seungwooryu.woostagram.post.repository.PostRepository;
 import com.seungwooryu.woostagram.user.domain.User;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,11 +31,12 @@ public class RepositoryCrudTest {
 
 
     @Test
+    @Transactional
     public void create() {
-        User user = User.of("tmddn646@naver.com","seungwooryu2","tmddn6452","vvee12","29nam","url_info");
-        Post post = Post.of("first posts","img_url_info",user);
-        Like like = Like.of(user,post);
-        Comment comment = Comment.of("post is good",user,post);
+        User user = User.of("tmddn646@naver.com", "seungwooryu2", "tmddn6452", "vvee12", "29nam", "url_info");
+        Post post = Post.of("first posts", "img_url_info", user);
+        Like like = Like.of(user, post);
+        Comment comment = Comment.of("post is good", user, post);
 
         User savedUser = userRepository.save(user);
         Post savedPost = postRepository.save(post);
@@ -51,6 +50,7 @@ public class RepositoryCrudTest {
     }
 
     @Test
+    @Transactional
     public void findOne() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
         assertThat(getUser).isNotNull();
@@ -61,11 +61,12 @@ public class RepositoryCrudTest {
         Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(), getPosts.get(0).getId());
         assertThat(getLike).isNotNull();
 
-        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPosts.get(0).getId());
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(), getPosts.get(0).getId());
         assertThat(getComment).isNotNull();
     }
 
     @Test
+    @Transactional
     public void findAll() {
         List<User> getUsers = userRepository.findAll();
         assertThat(getUsers).hasSize(4);
@@ -81,11 +82,12 @@ public class RepositoryCrudTest {
     }
 
     @Test
+    @Transactional
     public void update() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
         Post getPost = postRepository.findAllByAuthorId(getUser.getId()).get(0);
 
-        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(), getPost.getId());
 
         String updatedComments = "this is updated comments!";
         getComment.updateContents(updatedComments);
@@ -96,11 +98,12 @@ public class RepositoryCrudTest {
     }
 
     @Test
+    @Transactional
     public void delete() {
         User getUser = userRepository.findByEmail("tmddn645@naver.com");
         Post getPost = postRepository.findAllByAuthorId(getUser.getId()).get(0);
-        Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
-        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(),getPost.getId());
+        Like getLike = likeRepository.findByUserIdAndPostId(getUser.getId(), getPost.getId());
+        Comment getComment = commentRepository.findByUserIdAndPostId(getUser.getId(), getPost.getId());
 
         commentRepository.delete(getComment);
         likeRepository.delete(getLike);

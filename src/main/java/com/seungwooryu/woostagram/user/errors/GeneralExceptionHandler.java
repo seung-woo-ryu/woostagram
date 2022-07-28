@@ -8,7 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static com.seungwooryu.woostagram.common.utils.ApiUtils.*;
 import static java.util.stream.Collectors.toList;
@@ -32,17 +35,22 @@ public class GeneralExceptionHandler {
 
         final ApiResult<?> error = error(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, fieldErrors);
 
+        log.error("ApiResult = {}", error);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({DuplicatedArgumentException.class})
-    public ResponseEntity<ApiResult<?>> handleDuplicatedArgumentException(DuplicatedArgumentException e) {
-        List<ApiError.FieldError> fieldErrors = e.getFieldErrors().stream()
+    @ExceptionHandler({CustomException.class})
+    public ResponseEntity<ApiResult<?>> handleDuplicatedArgumentException(CustomException e) {
+        List<ApiError.FieldError> fieldErrors = Optional.ofNullable(e.getFieldErrors())
+                .orElseGet(Collections::emptyList)
+                .stream().filter(Objects::nonNull)
                 .map(ApiError.FieldError::createFieldError)
                 .collect(toList());
 
-        final ApiResult<?> error = error(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, fieldErrors);
+        final HttpStatus httpStatus = e.getHttpStatus();
+        final ApiResult<?> error = error(httpStatus.getReasonPhrase(), httpStatus, fieldErrors);
 
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        log.error("ApiResult = {}", error);
+        return new ResponseEntity<>(error, httpStatus);
     }
 }
