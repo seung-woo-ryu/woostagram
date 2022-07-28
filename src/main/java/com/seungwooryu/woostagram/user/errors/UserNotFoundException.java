@@ -4,8 +4,8 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
-public class DuplicatedArgumentException extends CustomException {
-    public DuplicatedArgumentException(List<FieldError> fieldErrors) {
+public class UserNotFoundException extends CustomException {
+    public UserNotFoundException(List<FieldError> fieldErrors) {
         super(fieldErrors);
     }
 }
