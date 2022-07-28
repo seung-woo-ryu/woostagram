@@ -6,12 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-public class PasswordValidator implements ConstraintValidator<Password,String> {
-    @Override
-    public void initialize(Password constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
-    }
-
+public class PasswordValidator implements ConstraintValidator<Password, String> {
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         // 영문자, 숫자만

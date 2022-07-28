@@ -23,15 +23,15 @@ public class SignupDto {
 
     @NotNull(message = "이름 Null 금지")
     @NotBlank(message = "이름 공백 금지")
-    @Size(min = 2,max = 16,message = "최소 2자리 이상 최대 16자리 이하")
+    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")
     private String name;
 
     @NotNull(message = "닉네임 Null 금지")
     @NotBlank(message = "닉네임 공백 금지")
-    @Size(min = 2,max = 16,message = "최소 2자리 이상 최대 16자리 이하")
+    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")
     private String nickname;
 
-    @Size(min = 2,max = 16,message = "최소 2자리 이상 최대 16자리 이하")
+    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")
     @Password
     private String password;
 }

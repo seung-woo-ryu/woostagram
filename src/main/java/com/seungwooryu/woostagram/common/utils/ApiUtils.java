@@ -7,11 +7,12 @@ import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ApiUtils {
     public static <T> ApiResult<T> success(List<T> response) {
-        return new ApiResult<>(true, response, null);
+        return new ApiResult<T>(true, response, null);
     }
 
     public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
@@ -19,7 +20,7 @@ public class ApiUtils {
     }
 
     public static ApiResult<?> error(String message, HttpStatus status) {
-        return new ApiResult<>(false, null, new ApiError(message, status));
+        return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status));
     }
 
     @ToString

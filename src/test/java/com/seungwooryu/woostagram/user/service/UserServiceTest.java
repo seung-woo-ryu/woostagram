@@ -24,7 +24,7 @@ class UserServiceTest {
     @Transactional
     void signupUser() {
         SignupDto request = new SignupDto("tmddn645@naver.com", "1123", "seungwooryu", "sksnnr12");
-        //userService.signupUser(request);
+
     }
 
     @Test
