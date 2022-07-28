@@ -32,6 +32,7 @@ public class GeneralExceptionHandler {
 
         final ApiResult<?> error = error(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, fieldErrors);
 
+        log.error("AuthenticationException= {}", error);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -43,6 +44,15 @@ public class GeneralExceptionHandler {
 
         final ApiResult<?> error = error(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, fieldErrors);
 
+        log.error("AuthenticationException= {}", error);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<ApiResult<?>> handleAuthenticationException(AuthenticationException e) {
+        final ApiResult<?> error = error(HttpStatus.UNAUTHORIZED.getReasonPhrase(), HttpStatus.UNAUTHORIZED);
+
+        log.error("AuthenticationException= {}", error);
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public UserDto signinUser(SigninDto signinDto) {
-        UserDto loginUserDto = checkUserExist(signinDto);
+        UserDto loginUserDto = findUserExist(signinDto);
 
         return loginUserDto;
     }
@@ -74,7 +74,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDto checkUserExist(SigninDto signinDto) {
+    public UserDto findUserExist(SigninDto signinDto) {
         List<FieldError> fieldErrors = new ArrayList<>();
 
         final String email = signinDto.getEmail();

@@ -1,6 +1,7 @@
 package com.seungwooryu.woostagram.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seungwooryu.woostagram.user.dto.SigninDto;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
 import com.seungwooryu.woostagram.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -66,5 +67,21 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.error.message").value(HttpStatus.BAD_REQUEST.getReasonPhrase()))
                 .andExpect(jsonPath("$.error.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.error.errors.length()").value(2));
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    void signinUserSuccess() throws Exception {
+        String email = "tmddn645@naver.com";
+        String password = "vvee12";
+
+        SigninDto request = new SigninDto(email, password);
+
+        mockMvc.perform(post("/signin")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 }

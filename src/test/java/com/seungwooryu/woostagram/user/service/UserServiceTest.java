@@ -42,20 +42,4 @@ class UserServiceTest {
         assertThat(userDto.getEmail()).isEqualTo(email);
         assertThat(userDto.getEmail()).isEqualTo(password);
     }
-
-    @Test
-    @DisplayName("로그인 성공")
-    void signinUser() {
-        //given
-        String email = "tmddn645@naver.com";
-        String password = "vvee12";
-
-        SigninDto signinDto = new SigninDto(email, password);
-        //when
-        UserDto userDto = userService.signinUser(signinDto);
-
-        //then
-        assertThat(userDto.getEmail()).isEqualTo(email);
-        assertThat(userDto.getEmail()).isEqualTo(password);
-    }
 }

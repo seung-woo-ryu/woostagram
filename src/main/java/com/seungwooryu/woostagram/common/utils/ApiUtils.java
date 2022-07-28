@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class ApiUtils {
     }
 
     public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
-        return new ApiResult<>(false, null, new ApiError(message, status, FieldErrors));
+        return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status, FieldErrors));
     }
 
     public static ApiResult<?> error(String message, HttpStatus status) {
@@ -32,7 +31,7 @@ public class ApiUtils {
         private final int status;
 
         ApiError(String message, HttpStatus status) {
-            this(message, status, new ArrayList<FieldError>());
+            this(message, status, Collections.emptyList());
         }
 
         ApiError(String message, HttpStatus status, List<FieldError> fieldErrors) {
