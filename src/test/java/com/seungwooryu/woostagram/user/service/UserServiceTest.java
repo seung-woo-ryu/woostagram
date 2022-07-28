@@ -1,34 +1,61 @@
 package com.seungwooryu.woostagram.user.service;
 
+import com.seungwooryu.woostagram.user.dto.SigninDto;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
+import com.seungwooryu.woostagram.user.dto.UserDto;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootApplication
 class UserServiceTest {
     @Autowired
-    BindingResult bindingResult;
-    @Autowired
     UserRepository userRepository;
-    //UserService userService = new UserService(userRepository, bindingResult);
+
+    @Autowired
+    UserService userService;
 
     @Test
+    @Transactional
     void signupUser() {
-        SignupDto request = new SignupDto("tmddn645@naver.com","1123","seungwooryu","sksnnr12");
+        SignupDto request = new SignupDto("tmddn645@naver.com", "1123", "seungwooryu", "sksnnr12");
         //userService.signupUser(request);
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    void signinUser() {
+        //given
+        String email = "tmddn645@naver.com";
+        String password = "vvee12";
+
+        SigninDto signinDto = new SigninDto(email, password);
+        //when
+        UserDto userDto = userService.signinUser(signinDto);
+
+        //then
+        assertThat(userDto.getEmail()).isEqualTo(email);
+        assertThat(userDto.getEmail()).isEqualTo(password);
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    void signinUser() {
+        //given
+        String email = "tmddn645@naver.com";
+        String password = "vvee12";
+
+        SigninDto signinDto = new SigninDto(email, password);
+        //when
+        UserDto userDto = userService.signinUser(signinDto);
+
+        //then
+        assertThat(userDto.getEmail()).isEqualTo(email);
+        assertThat(userDto.getEmail()).isEqualTo(password);
     }
 }
