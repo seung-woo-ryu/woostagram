@@ -44,7 +44,7 @@ class ApiUtilsTest {
         log.info("ApiResult(error): {}", apiResult);
 
         assertThat(apiResult.isSuccess()).isEqualTo(false);
-        assertThat(apiResult.getResponse()).isNull();
+        assertThat(apiResult.getResponse()).isEmpty();
         assertThat(apiResult.getError().getMessage()).isEqualTo(HttpStatus.BAD_REQUEST.getReasonPhrase());
         assertThat(apiResult.getError().getStatus()).isEqualTo(status.value());
     }
