@@ -1,11 +1,11 @@
 package com.seungwooryu.woostagram.user.service;
 
+import com.seungwooryu.woostagram.common.errors.DuplicatedArgumentException;
+import com.seungwooryu.woostagram.common.errors.UserNotFoundException;
 import com.seungwooryu.woostagram.user.domain.User;
 import com.seungwooryu.woostagram.user.dto.SigninDto;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
 import com.seungwooryu.woostagram.user.dto.UserDto;
-import com.seungwooryu.woostagram.user.errors.DuplicatedArgumentException;
-import com.seungwooryu.woostagram.user.errors.UserNotFoundException;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

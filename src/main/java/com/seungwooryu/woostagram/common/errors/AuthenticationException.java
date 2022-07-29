@@ -1,4 +1,4 @@
-package com.seungwooryu.woostagram.user.errors;
+package com.seungwooryu.woostagram.common.errors;
 
 
 import lombok.Getter;

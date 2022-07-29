@@ -1,6 +1,5 @@
-package com.seungwooryu.woostagram.user.errors;
+package com.seungwooryu.woostagram.common.errors;
 
-import com.seungwooryu.woostagram.user.controller.UserController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import java.util.Optional;
 import static com.seungwooryu.woostagram.common.utils.ApiUtils.*;
 import static java.util.stream.Collectors.toList;
 
-@RestControllerAdvice(basePackageClasses = UserController.class)
+@RestControllerAdvice
 @Slf4j
 public class GeneralExceptionHandler {
 
