@@ -1,6 +1,6 @@
 package com.seungwooryu.woostagram.user.interceptor;
 
-import com.seungwooryu.woostagram.user.errors.AuthenticationException;
+import com.seungwooryu.woostagram.common.errors.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
