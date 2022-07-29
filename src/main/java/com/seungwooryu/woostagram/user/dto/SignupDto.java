@@ -17,18 +17,18 @@ import javax.validation.constraints.Size;
 public class SignupDto {
 
     @Email(message = "이메일 양식이여야 합니다.")
-    @NotNull(message = "이메일 Null 금지")
-    @NotBlank(message = "이메일 공백 금지")
+    @NotNull(message = "이메일 Null 금지입니다")
+    @NotBlank(message = "이메일 공백 금지입니다")
     private String email;
 
-    @NotNull(message = "이름 Null 금지")
-    @NotBlank(message = "이름 공백 금지")
-    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")
+    @NotNull(message = "이름 Null 금지입니다")
+    @NotBlank(message = "이름 공백 금지입니다")
+    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하입니다")
     private String name;
 
-    @NotNull(message = "닉네임 Null 금지")
-    @NotBlank(message = "닉네임 공백 금지")
-    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")
+    @NotNull(message = "닉네임 Null 금지입니다")
+    @NotBlank(message = "닉네임 공백 금지입니다")
+    @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하입니다")
     private String nickname;
 
     @Size(min = 2, max = 16, message = "최소 2자리 이상 최대 16자리 이하")

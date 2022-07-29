@@ -66,7 +66,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.response").isEmpty())
                 .andExpect(jsonPath("$.error.message").value(HttpStatus.BAD_REQUEST.getReasonPhrase()))
                 .andExpect(jsonPath("$.error.status").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.error.errors.length()").value(2));
+                .andExpect(jsonPath("$.error.fieldErrors.length()").value(2));
     }
 
     @Test
@@ -75,7 +75,9 @@ class UserControllerTest {
         String email = "tmddn645@naver.com";
         String password = "vvee12";
 
-        SigninDto request = new SigninDto(email, password);
+        SigninDto request = new SigninDto();
+        request.setEmail(email);
+        request.setPassword(password);
 
         mockMvc.perform(post("/signin")
                         .content(objectMapper.writeValueAsString(request))

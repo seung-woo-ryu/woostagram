@@ -7,6 +7,7 @@ import com.seungwooryu.woostagram.user.dto.UserDto;
 import com.seungwooryu.woostagram.user.errors.DuplicatedArgumentException;
 import com.seungwooryu.woostagram.user.errors.UserNotFoundException;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,12 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public UserDto signupUser(SignupDto signupDto) {
+    @Transactional
+    public UserDto signup(SignupDto signupDto) {
         checkDuplicate(signupDto);
 
         UserDto savedUserDto = saveUser(signupDto);
@@ -34,14 +33,15 @@ public class UserService {
         return savedUserDto;
     }
 
-    public UserDto signinUser(SigninDto signinDto) {
+    @Transactional
+    public UserDto signin(SigninDto signinDto) {
         UserDto loginUserDto = findUserExist(signinDto);
 
         return loginUserDto;
     }
 
-    @Transactional
-    public UserDto saveUser(SignupDto signupDto) {
+
+    private UserDto saveUser(SignupDto signupDto) {
         User newUser = User.createUserBySignupDto(signupDto);
         User savedUser = userRepository.save(newUser);
 
@@ -50,8 +50,8 @@ public class UserService {
         return savedUserDto;
     }
 
-    @Transactional(readOnly = true)
-    public void checkDuplicate(SignupDto signupDto) {
+
+    private void checkDuplicate(SignupDto signupDto) {
         List<FieldError> fieldErrors = new ArrayList<>();
 
         final String email = signupDto.getEmail();
@@ -74,8 +74,7 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public UserDto findUserExist(SigninDto signinDto) {
+    private UserDto findUserExist(SigninDto signinDto) {
         List<FieldError> fieldErrors = new ArrayList<>();
 
         final String email = signinDto.getEmail();
