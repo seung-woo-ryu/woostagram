@@ -9,21 +9,18 @@ import com.seungwooryu.woostagram.user.exception.AuthenticationException;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private static final String FOLDER_NAME = "post";
-
     private final FileService fileService;
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public Long upload(PostDto postDto, String userEmail) {
-        final MultipartFile imageFile = postDto.getImageFile();
-        final String savedImagePath = fileService.upload(imageFile, FOLDER_NAME);
+    @Transactional
+    public Long upload(PostDto postDto, String userEmail, String savedImagePath) {
         final String content = postDto.getContent();
 
         User user = userRepository.findByEmail(userEmail);
@@ -33,14 +30,15 @@ public class PostService {
         return savedPost.getId();
     }
 
-    public void delete(Long id, String email) {
+    @Transactional
+    public String delete(Long id, String email) {
         Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        final String imageUrl = post.getImageUrl();
+
         validateUser(post, email);
-
-        String imageUrl = post.getImageUrl();
-
-        fileService.delete(imageUrl);
         postRepository.deleteById(id);
+
+        return imageUrl;
     }
 
     private void validateUser(Post post, String email) {
