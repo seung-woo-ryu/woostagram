@@ -1,8 +1,11 @@
-package com.seungwooryu.woostagram.post.domain;
+package com.seungwooryu.woostagram.comment;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
+import com.seungwooryu.woostagram.post.domain.Post;
 import com.seungwooryu.woostagram.user.domain.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -20,11 +23,11 @@ public class Comment extends BaseEntity {
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="author_id",referencedColumnName = "id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="post_id",referencedColumnName = "id")
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     private Comment(String contents, User user, Post post) {
@@ -36,7 +39,8 @@ public class Comment extends BaseEntity {
     public static Comment of(String contents, User user, Post post) {
         return new Comment(contents, user, post);
     }
-    public void updateContents(String contents){
+
+    public void updateContents(String contents) {
         this.contents = contents;
     }
 }
