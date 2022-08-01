@@ -2,7 +2,9 @@ package com.seungwooryu.woostagram.post.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.user.domain.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -24,7 +26,7 @@ public class Post extends BaseEntity {
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name="author_id",referencedColumnName = "id")
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User user;
 
     private Post(String contents, String imageUrl, User user) {
@@ -33,17 +35,21 @@ public class Post extends BaseEntity {
         this.user = user;
     }
 
-    public static Post of(String contents, String imageUrl, User authorId) {
-        return new Post(contents, imageUrl, authorId);
+    public static Post of(String contents, String imageUrl, User user) {
+        return new Post(contents, imageUrl, user);
     }
 
 
-    public void updateImageUrl(String imgUrl){
+    public void updateImageUrl(String imgUrl) {
         this.imageUrl = imgUrl;
     }
 
-    public void updateContents(String contents){
+    public void updateContents(String contents) {
         this.contents = contents;
+    }
+
+    public Boolean isAuthor(User findUser) {
+        return user.getId().equals(findUser.getId());
     }
 
 }

@@ -1,7 +1,59 @@
 package com.seungwooryu.woostagram.post.service;
 
+import com.seungwooryu.woostagram.post.domain.Post;
+import com.seungwooryu.woostagram.post.dto.PostDto;
+import com.seungwooryu.woostagram.post.exception.PostNotFoundException;
+import com.seungwooryu.woostagram.post.repository.PostRepository;
+import com.seungwooryu.woostagram.user.domain.User;
+import com.seungwooryu.woostagram.user.exception.AuthenticationException;
+import com.seungwooryu.woostagram.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
+    private static final String FOLDER_NAME = "post";
+
+    private final FileService fileService;
+
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+
+    public Long upload(PostDto postDto, String userEmail) {
+        final MultipartFile imageFile = postDto.getImageFile();
+        final String savedImagePath = fileService.upload(imageFile, FOLDER_NAME);
+        final String content = postDto.getContent();
+
+        User user = userRepository.findByEmail(userEmail);
+        Post newPost = Post.of(content, savedImagePath, user);
+        Post savedPost = postRepository.save(newPost);
+
+        return savedPost.getId();
+    }
+
+    public void delete(Long id, String email) {
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        validateUser(post, email);
+
+        String imageUrl = post.getImageUrl();
+
+        fileService.delete(imageUrl);
+        postRepository.deleteById(id);
+    }
+
+    private void validateUser(Post post, String email) {
+        User findUser = userRepository.findByEmail(email);
+
+        if (!post.isAuthor(findUser)) {
+            throw new AuthenticationException();
+        }
+
+    }
+
+    //ToDo: 수정 페이지(프론트)작업되었을 때
+    public Long update(PostDto postDto, String loggedInUserEmail, Long id) {
+        return 1L;
+    }
 }
