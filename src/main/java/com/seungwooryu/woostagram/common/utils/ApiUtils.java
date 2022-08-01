@@ -14,6 +14,10 @@ public class ApiUtils {
         return new ApiResult<T>(true, response, null);
     }
 
+    public static <T> ApiResult<T> success() {
+        return new ApiResult<T>(true, Collections.emptyList(), null);
+    }
+
     public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
         return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status, FieldErrors));
     }
