@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+new_user_credentials.csv
+
+application-dev.yml

@@ -25,3 +25,15 @@ spring:
   sql:
     init:
       mode: always
+
+cloud:
+  aws:
+    credentials:
+      access-key: !!!!!!!!AKIA5TB26NOSMTVNXANV!!!!암호화 어떻게?
+      secret-key: !!!!!!!!AKIA5TB26NOSMTVNXANV!!!!암호화 어떻게?
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: woostagram
+    stack:
+      auto: false
