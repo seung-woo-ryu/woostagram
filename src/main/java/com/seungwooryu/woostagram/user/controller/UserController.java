@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 
 import static com.seungwooryu.woostagram.common.utils.ApiUtils.success;
+import static com.seungwooryu.woostagram.common.utils.Constants.LOGGED_IN_USER_SESSION_KEY;
 
 @Slf4j
 @RestController
@@ -40,12 +41,11 @@ public class UserController {
         // loginUser 존재확인
         UserDto loginUserDto = userService.signin(signinDto);
 
-        final ApiResult<String> response = success(new ArrayList<>());
         // Session 생성해서 유저 정보 저장.
         HttpSession session = request.getSession();
-        session.setAttribute("USER", loginUserDto);
+        session.setAttribute(LOGGED_IN_USER_SESSION_KEY, loginUserDto);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(success(), HttpStatus.OK);
     }
 }
 
