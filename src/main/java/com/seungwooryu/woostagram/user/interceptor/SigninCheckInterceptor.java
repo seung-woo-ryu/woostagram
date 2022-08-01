@@ -1,8 +1,7 @@
 package com.seungwooryu.woostagram.user.interceptor;
 
-import com.seungwooryu.woostagram.common.errors.AuthenticationException;
+import com.seungwooryu.woostagram.user.exception.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ public class SigninCheckInterceptor implements HandlerInterceptor {
 
         Optional.ofNullable(request.getSession(false)).orElseThrow(() -> {
             log.info("미인증 사용자 요청");
-            throw new AuthenticationException(HttpStatus.UNAUTHORIZED);
+            throw new AuthenticationException();
         });
 
         return true;

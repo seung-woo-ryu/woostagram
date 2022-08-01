@@ -1,15 +1,14 @@
 package com.seungwooryu.woostagram.user.service;
 
-import com.seungwooryu.woostagram.common.errors.DuplicatedArgumentException;
-import com.seungwooryu.woostagram.common.errors.UserNotFoundException;
 import com.seungwooryu.woostagram.user.domain.User;
 import com.seungwooryu.woostagram.user.dto.SigninDto;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
 import com.seungwooryu.woostagram.user.dto.UserDto;
+import com.seungwooryu.woostagram.user.exception.DuplicatedArgumentException;
+import com.seungwooryu.woostagram.user.exception.UserNotFoundException;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.FieldError;
@@ -70,7 +69,7 @@ public class UserService {
         // 중복된 속성 존재시 exception 발생
         if (!fieldErrors.isEmpty()) {
             log.info("UserService.signupUser, DuplicatedArgumentException Error");
-            throw new DuplicatedArgumentException(fieldErrors, HttpStatus.BAD_REQUEST);
+            throw new DuplicatedArgumentException(fieldErrors);
         }
     }
 
@@ -99,7 +98,7 @@ public class UserService {
 
         if (!fieldErrors.isEmpty()) {
             log.info("UserService.signinUser, UserNotFoundException Error");
-            throw new UserNotFoundException(fieldErrors, HttpStatus.BAD_REQUEST);
+            throw new UserNotFoundException(fieldErrors);
         }
 
         UserDto loginUserDto = new UserDto(loginUser);
