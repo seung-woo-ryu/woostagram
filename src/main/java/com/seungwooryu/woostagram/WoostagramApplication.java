@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class WoostagramApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(WoostagramApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(WoostagramApplication.class, args);
+    }
 }
