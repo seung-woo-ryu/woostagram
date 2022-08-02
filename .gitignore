@@ -76,7 +76,7 @@ new_user_credentials.csv
 .attach_pid*
 .classpath
 .factorypath
-*/.gradle/*
+.gradle/*
 .idea
 .metadata
 .project
