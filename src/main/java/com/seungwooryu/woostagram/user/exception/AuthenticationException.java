@@ -10,4 +10,8 @@ public class AuthenticationException extends CustomException {
     public AuthenticationException() {
         super(HttpStatus.BAD_REQUEST);
     }
+
+    public AuthenticationException(String message) {
+        super(message, HttpStatus.BAD_REQUEST);
+    }
 }
