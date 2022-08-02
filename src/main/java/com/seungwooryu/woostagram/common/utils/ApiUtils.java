@@ -18,10 +18,6 @@ public class ApiUtils {
         return new ApiResult<T>(true, Collections.emptyList(), null);
     }
 
-    public static ApiResult<?> error(String message, HttpStatus status, List<ApiError.FieldError> FieldErrors) {
-        return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status, FieldErrors));
-    }
-
     public static ApiResult<?> error(String message, HttpStatus status) {
         return new ApiResult<>(false, Collections.emptyList(), new ApiError(message, status));
     }
@@ -31,44 +27,11 @@ public class ApiUtils {
     @RequiredArgsConstructor
     public static class ApiError {
         private final String message;
-        private final List<FieldError> fieldErrors;
         private final int status;
 
         ApiError(String message, HttpStatus status) {
-            this(message, status, Collections.emptyList());
-        }
-
-        ApiError(String message, HttpStatus status, List<FieldError> fieldErrors) {
             this.message = message;
             this.status = status.value();
-            this.fieldErrors = fieldErrors;
-        }
-
-        @Getter
-        public static class FieldError {
-            private String field;
-            private Object value;
-            private String reason;
-
-            private FieldError(String field, Object value, String reason) {
-                this.field = field;
-                this.value = value;
-                this.reason = reason;
-            }
-
-            private FieldError(org.springframework.validation.FieldError fieldError) {
-                this.field = fieldError.getField();
-                this.value = (Object) fieldError.getRejectedValue();
-                this.reason = fieldError.getDefaultMessage();
-            }
-
-            public static FieldError createFieldError(org.springframework.validation.FieldError fieldError) {
-                return new FieldError(fieldError);
-            }
-
-            public static FieldError createFieldError(String field, Object value, String reason) {
-                return new FieldError(field, value, reason);
-            }
         }
 
     }
@@ -80,7 +43,5 @@ public class ApiUtils {
         private final boolean success;
         private final List<T> response;
         private final ApiError error;
-
     }
-
 }

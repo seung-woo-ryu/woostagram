@@ -1,12 +1,14 @@
 package com.seungwooryu.woostagram.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seungwooryu.woostagram.post.facade.PostFacade;
 import com.seungwooryu.woostagram.user.dto.SigninDto;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
 import com.seungwooryu.woostagram.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
+@AutoConfigureWebMvc
 class UserControllerTest {
 
     @Autowired
@@ -27,6 +30,8 @@ class UserControllerTest {
     @MockBean
     UserService userService;
 
+    @MockBean
+    PostFacade postFacade;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -64,9 +69,7 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.response").isEmpty())
-                .andExpect(jsonPath("$.error.message").value(HttpStatus.BAD_REQUEST.getReasonPhrase()))
-                .andExpect(jsonPath("$.error.status").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.error.fieldErrors.length()").value(2));
+                .andExpect(jsonPath("$.error.status").value(HttpStatus.BAD_REQUEST.value()));
     }
 
     @Test
@@ -76,6 +79,7 @@ class UserControllerTest {
         String password = "vvee12";
 
         SigninDto request = new SigninDto();
+
         request.setEmail(email);
         request.setPassword(password);
 
@@ -83,7 +87,10 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.response").isEmpty())
+                .andExpect(jsonPath("$.error").doesNotExist());
 
     }
 }

@@ -4,8 +4,10 @@ import com.seungwooryu.woostagram.post.dto.PostDto;
 import com.seungwooryu.woostagram.post.service.FileService;
 import com.seungwooryu.woostagram.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class PostFacade {
     private static final String FOLDER_NAME = "post";
     private final PostService postService;
