@@ -1,9 +1,7 @@
 package com.seungwooryu.woostagram.user.controller;
 
 import com.seungwooryu.woostagram.common.utils.ApiUtils.ApiResult;
-import com.seungwooryu.woostagram.user.dto.SigninDto;
-import com.seungwooryu.woostagram.user.dto.SignupDto;
-import com.seungwooryu.woostagram.user.dto.UserDto;
+import com.seungwooryu.woostagram.user.dto.*;
 import com.seungwooryu.woostagram.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
 
 import static com.seungwooryu.woostagram.common.utils.ApiUtils.success;
 import static com.seungwooryu.woostagram.common.utils.Constants.LOGGED_IN_USER_SESSION_KEY;
@@ -29,11 +26,20 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResult<?>> signup(@Valid @RequestBody SignupDto signupDto) {
-        // 회원가입 성공한 유저 정보로 /login으로 포워딩.
-        final ApiResult<String> response = success(new ArrayList<>());
         userService.signup(signupDto);
+        return new ResponseEntity<>(success(), HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/signup/email")
+    public ResponseEntity<ApiResult<?>> checkDuplicationEmail(@Valid @RequestBody EmailDto emailDto) {
+        final boolean isDuplicatedEmail = userService.checkDuplicationEmail(emailDto);
+        return new ResponseEntity<>(success(isDuplicatedEmail), HttpStatus.OK);
+    }
+
+    @PostMapping("/signup/nickname")
+    public ResponseEntity<ApiResult<?>> checkDuplicationNickname(@Valid @RequestBody NicknameDto nicknameDto) {
+        final boolean isDuplicatedNickname = userService.checkDuplicationNickname(nicknameDto);
+        return new ResponseEntity<>(success(isDuplicatedNickname), HttpStatus.OK);
     }
 
     @PostMapping("/signin")
