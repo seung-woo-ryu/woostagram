@@ -1,9 +1,7 @@
 package com.seungwooryu.woostagram.user.service;
 
 import com.seungwooryu.woostagram.user.domain.User;
-import com.seungwooryu.woostagram.user.dto.SigninDto;
-import com.seungwooryu.woostagram.user.dto.SignupDto;
-import com.seungwooryu.woostagram.user.dto.UserDto;
+import com.seungwooryu.woostagram.user.dto.*;
 import com.seungwooryu.woostagram.user.exception.DuplicatedArgumentException;
 import com.seungwooryu.woostagram.user.exception.UserNotFoundException;
 import com.seungwooryu.woostagram.user.repository.UserRepository;
@@ -32,6 +30,7 @@ public class UserService {
     }
 
     private UserDto saveUser(SignupDto signupDto) {
+
         User newUser = User.createUserBySignupDto(signupDto);
         User savedUser = userRepository.save(newUser);
 
@@ -40,9 +39,8 @@ public class UserService {
 
 
     private void checkDuplicate(SignupDto signupDto) {
-        if (!userRepository.existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
-        if (!userRepository.existsByNickname(signupDto.getNickname()))
-            throw new DuplicatedArgumentException("중복된 닉네임입니다");
+        if (!existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
+        if (!existsByNickname(signupDto.getNickname())) throw new DuplicatedArgumentException("중복된 닉네임입니다");
     }
 
     private UserDto findUserByEmailAndPassword(SigninDto signinDto) {
@@ -50,4 +48,21 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException());
         return new UserDto(loginUser);
     }
+
+    public boolean checkDuplicationEmail(EmailDto emailDto) {
+        return existsByEmail(emailDto.getEmail());
+    }
+
+    public boolean checkDuplicationNickname(NicknameDto nicknameDto) {
+        return existsByNickname(nicknameDto.getNickname());
+    }
+
+    private boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    private boolean existsByNickname(String Nickname) {
+        return userRepository.existsByNickname(Nickname);
+    }
 }
+

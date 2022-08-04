@@ -1,6 +1,6 @@
-package com.seungwooryu.woostagram.post.repository;
+package com.seungwooryu.woostagram.comment.repository;
 
-import com.seungwooryu.woostagram.comment.Comment;
+import com.seungwooryu.woostagram.comment.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

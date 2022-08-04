@@ -6,12 +6,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class ApiUtils {
-    public static <T> ApiResult<T> success(List<T> response) {
-        return new ApiResult<T>(true, response, null);
+    public static <T> ApiResult<T> success(List<T> multipleReponse) {
+        return new ApiResult<T>(true, multipleReponse, null);
+    }
+
+    public static <T> ApiResult<T> success(T response) {
+        return new ApiResult<T>(true, Arrays.asList(response), null);
     }
 
     public static <T> ApiResult<T> success() {

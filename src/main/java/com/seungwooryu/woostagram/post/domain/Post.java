@@ -48,8 +48,8 @@ public class Post extends BaseEntity {
         this.contents = contents;
     }
 
-    public Boolean isAuthor(User findUser) {
-        return user.getId().equals(findUser.getId());
+    public Boolean isAuthor(User sessionUser) {
+        return this.user.getId().equals(sessionUser.getId());
     }
 
 }
