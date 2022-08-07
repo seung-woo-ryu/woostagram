@@ -21,13 +21,12 @@ public class CommentService {
         validateUser(comment, sessionUser);
 
         commentRepository.delete(comment);
-
         return true;
     }
 
     @Transactional
-    public void create(User userWithComment, Post postWithComment, String content) {
-        Comment newComment = Comment.of(content, userWithComment, postWithComment);
+    public void create(User sessionUser, Post postWithComment, String content) {
+        Comment newComment = Comment.of(content, sessionUser, postWithComment);
         Comment savedComment = commentRepository.save(newComment);
     }
 
@@ -36,8 +35,8 @@ public class CommentService {
             throw new AuthenticationException();
         }
     }
-    
-    public Comment findById(Long commentId) {
+
+    private Comment findById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(PostNotFoundException::new);
     }
 }

@@ -31,13 +31,13 @@ public class UserController {
     }
 
     @PostMapping("/signup/email")
-    public ResponseEntity<ApiResult<?>> checkDuplicationEmail(@Valid @RequestBody EmailDto emailDto) {
+    public ResponseEntity<ApiResult<?>> checkDuplicateEmail(@Valid @RequestBody EmailDto emailDto) {
         final boolean isDuplicatedEmail = userService.checkDuplicationEmail(emailDto);
         return new ResponseEntity<>(success(isDuplicatedEmail), HttpStatus.OK);
     }
 
     @PostMapping("/signup/nickname")
-    public ResponseEntity<ApiResult<?>> checkDuplicationNickname(@Valid @RequestBody NicknameDto nicknameDto) {
+    public ResponseEntity<ApiResult<?>> checkDuplicateNickname(@Valid @RequestBody NicknameDto nicknameDto) {
         final boolean isDuplicatedNickname = userService.checkDuplicationNickname(nicknameDto);
         return new ResponseEntity<>(success(isDuplicatedNickname), HttpStatus.OK);
     }

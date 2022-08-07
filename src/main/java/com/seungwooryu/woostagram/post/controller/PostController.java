@@ -11,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static com.seungwooryu.woostagram.common.utils.ApiUtils.success;
 
 @Slf4j
@@ -23,21 +21,21 @@ public class PostController {
     private final PostFacade postFacade;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResult<?>> upload(@ModelAttribute PostDto postDto, @LoggedInUser String LoggedInUserEmail) {
-        Long postId = postFacade.upload(postDto, LoggedInUserEmail);
-        return new ResponseEntity<>(success(List.of(postId)), HttpStatus.OK);
+    public ResponseEntity<ApiResult<?>> upload(@ModelAttribute PostDto postDto, @LoggedInUser String loggedInUserEmail) {
+        Long postId = postFacade.upload(postDto, loggedInUserEmail);
+        return new ResponseEntity<>(success(postId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResult<?>> delete(@PathVariable Long id, @LoggedInUser String LoggedInUserEmail) {
-        Boolean delete = postFacade.delete(id, LoggedInUserEmail);
-        return new ResponseEntity<>(success(List.of(delete)), HttpStatus.OK);
+    public ResponseEntity<ApiResult<?>> delete(@PathVariable Long id, @LoggedInUser String loggedInUserEmail) {
+        Boolean delete = postFacade.delete(id, loggedInUserEmail);
+        return new ResponseEntity<>(success(delete), HttpStatus.OK);
     }
 
     //ToDo: 수정 페이지 작업 후 진행
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResult<?>> update(@ModelAttribute PostDto postDto, @PathVariable Long id, @LoggedInUser String LoggedInUserEmail) {
-        //Long postId = postService.update(postDto, LoggedInUserEmail, id);
-        return new ResponseEntity<>(success(List.of(1)), HttpStatus.OK);
+    public ResponseEntity<ApiResult<?>> update(@ModelAttribute PostDto postDto, @PathVariable Long id, @LoggedInUser String loggedInUserEmail) {
+        //Long postId = postService.update(postDto, loggedInUserEmail, id);
+        return new ResponseEntity<>(success(1), HttpStatus.OK);
     }
 }

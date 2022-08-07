@@ -30,7 +30,6 @@ public class UserService {
     }
 
     private UserDto saveUser(SignupDto signupDto) {
-
         User newUser = User.createUserBySignupDto(signupDto);
         User savedUser = userRepository.save(newUser);
 
@@ -39,8 +38,8 @@ public class UserService {
 
 
     private void checkDuplicate(SignupDto signupDto) {
-        if (!existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
-        if (!existsByNickname(signupDto.getNickname())) throw new DuplicatedArgumentException("중복된 닉네임입니다");
+        if (existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
+        if (existsByNickname(signupDto.getNickname())) throw new DuplicatedArgumentException("중복된 닉네임입니다");
     }
 
     private UserDto findUserByEmailAndPassword(SigninDto signinDto) {
@@ -55,6 +54,12 @@ public class UserService {
 
     public boolean checkDuplicationNickname(NicknameDto nicknameDto) {
         return existsByNickname(nicknameDto.getNickname());
+    }
+
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException());
     }
 
     private boolean existsByEmail(String email) {
