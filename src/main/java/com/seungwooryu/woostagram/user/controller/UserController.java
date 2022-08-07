@@ -44,10 +44,8 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<ApiResult<?>> signin(@Valid @RequestBody SigninDto signinDto, HttpServletRequest request) {
-        // loginUser 존재확인
         UserDto loginUserDto = userService.signin(signinDto);
 
-        // Session 생성해서 유저 정보 저장.
         HttpSession session = request.getSession();
         session.setAttribute(LOGGED_IN_USER_SESSION_KEY, loginUserDto);
 

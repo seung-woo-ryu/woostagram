@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
     private final PostRepository postRepository;
 
     @Transactional
@@ -26,7 +27,6 @@ public class PostService {
     @Transactional
     public String delete(Long id, User sessionUser) {
         Post post = findPostById(id);
-
         final String imageUrl = post.getImageUrl();
 
         validateUser(post, sessionUser);

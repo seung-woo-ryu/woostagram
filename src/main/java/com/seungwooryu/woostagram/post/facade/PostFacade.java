@@ -13,10 +13,12 @@ public class PostFacade {
     private static final String FOLDER_NAME = "post";
     private final PostService postService;
     private final FileService fileService;
+
     private final UserService userService;
 
     public Boolean delete(Long id, String loggedInUserEmail) {
         String imageUrl = postService.delete(id, userService.findUserByEmail(loggedInUserEmail));
+
         fileService.delete(imageUrl);
         return true;
     }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-
 class UserControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("로그인 성공.")
@@ -51,7 +50,6 @@ class UserControllerTest extends AbstractControllerTests {
                 .isBadRequest()
 
                 .expectBody()
-                .consumeWith(System.out::println)
                 .jsonPath("$.success").isEqualTo(false)
                 .jsonPath("$.response").isEmpty()
                 .jsonPath("$.error.status").isEqualTo(HttpStatus.BAD_REQUEST.value());
