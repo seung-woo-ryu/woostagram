@@ -36,10 +36,9 @@ public class UserService {
         return new UserDto(savedUser);
     }
 
-
     private void checkDuplicate(SignupDto signupDto) {
-        if (!existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
-        if (!existsByNickname(signupDto.getNickname())) throw new DuplicatedArgumentException("중복된 닉네임입니다");
+        if (existsByEmail(signupDto.getEmail())) throw new DuplicatedArgumentException("중복된 이메일입니다");
+        if (existsByNickname(signupDto.getNickname())) throw new DuplicatedArgumentException("중복된 닉네임입니다");
     }
 
     private UserDto findUserByEmailAndPassword(SigninDto signinDto) {
@@ -56,6 +55,14 @@ public class UserService {
         return existsByNickname(nicknameDto.getNickname());
     }
 
+    // 외부 클래스에서 사용해서 transactional필요하고
+    // 내부 메소드(signin)에서도 transactional로 감싸지는데 어떻게 되는거지?
+    @Transactional(readOnly = true)
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException());
+    }
+
     private boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
@@ -64,3 +71,4 @@ public class UserService {
         return userRepository.existsByNickname(Nickname);
     }
 }
+

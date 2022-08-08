@@ -12,7 +12,7 @@ import java.util.List;
 
 @Configuration
 public class UserConfig implements WebMvcConfigurer {
-    private static final String[] whitelist = {"/signin", "/signup", "/post"};
+    private static final String[] whitelist = {"/signin", "/signup", "/signup/email", "/signup/nickname", "/post"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

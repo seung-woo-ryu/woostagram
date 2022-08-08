@@ -1,4 +1,4 @@
-package com.seungwooryu.woostagram.comment;
+package com.seungwooryu.woostagram.comment.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.post.domain.Post;
@@ -6,6 +6,7 @@ import com.seungwooryu.woostagram.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Table(name = "comments")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Comment extends BaseEntity {
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -42,5 +44,9 @@ public class Comment extends BaseEntity {
 
     public void updateContents(String contents) {
         this.contents = contents;
+    }
+
+    public boolean isAuthor(User sessionUser) {
+        return this.user.getId().equals(sessionUser.getId());
     }
 }

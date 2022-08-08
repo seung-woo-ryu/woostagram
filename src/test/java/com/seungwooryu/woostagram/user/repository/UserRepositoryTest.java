@@ -1,6 +1,5 @@
 package com.seungwooryu.woostagram.user.repository;
 
-import com.seungwooryu.woostagram.user.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +21,6 @@ class UserRepositoryTest {
 
         //when
         boolean existUser = userRepository.existsByEmail(email);
-        if (existUser) {
-            User getUser = userRepository.findByEmail(email);
-            System.out.println(getUser);
-        }
 
         //then
         assertTrue(existUser);
@@ -39,10 +34,6 @@ class UserRepositoryTest {
 
         //when
         boolean notExistUser = !userRepository.existsByEmail(email);
-        if (notExistUser) {
-            User getUser = userRepository.findByEmail(email);
-            System.out.println(getUser);
-        }
 
         //then
         assertTrue(notExistUser);
@@ -56,10 +47,6 @@ class UserRepositoryTest {
 
         //when
         boolean existUser = userRepository.existsByNickname(nickname);
-        if (existUser) {
-            User getUser = userRepository.findByNickname(nickname);
-            System.out.println(getUser);
-        }
 
         //then
         assertTrue(existUser);
@@ -73,10 +60,6 @@ class UserRepositoryTest {
 
         //when
         boolean notExistUser = !userRepository.existsByNickname(nickname);
-        if (notExistUser) {
-            User getUser = userRepository.findByNickname(nickname);
-            System.out.println(getUser);
-        }
 
         //then
         assertTrue(notExistUser);

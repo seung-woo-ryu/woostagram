@@ -1,96 +1,139 @@
 package com.seungwooryu.woostagram.user.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seungwooryu.woostagram.post.facade.PostFacade;
-import com.seungwooryu.woostagram.user.dto.SigninDto;
-import com.seungwooryu.woostagram.user.dto.SignupDto;
-import com.seungwooryu.woostagram.user.service.UserService;
+import com.seungwooryu.woostagram.AbstractControllerTests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.HashMap;
+import java.util.Map;
 
-@WebMvcTest
-@AutoConfigureWebMvc
-class UserControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    UserService userService;
-
-    @MockBean
-    PostFacade postFacade;
-    @Autowired
-    private ObjectMapper objectMapper;
-
+class UserControllerTest extends AbstractControllerTests {
     @Test
-    @DisplayName("회원가입 성공. 유효한 정보들")
-    void signupSuccess() throws Exception {
-        //given
-        SignupDto request = new SignupDto("tmddn645@nave.rcom", "seungwoo", "seung-woo-ryu", "asdf123");
-        //when,then
-        String json = objectMapper.writeValueAsString(request);
+    @DisplayName("로그인 성공.")
+    void signin_success_isOk() {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "tmddn645@naver.com");
+        params.put("password", "vvee12");
 
-        mockMvc.perform(post("/signup")
-                        .content(json)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.error").isEmpty());
+        clearCookie();
+        postJsonRequest("/signin", params)
+                .expectHeader()
+                .exists(HttpHeaders.SET_COOKIE)
+
+                .expectCookie()
+                .exists("JSESSIONID")
+
+                .expectStatus()
+                .isOk()
+
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.success").isEqualTo(true)
+                .jsonPath("$.response").isEmpty()
+                .jsonPath("$.error").doesNotExist();
+
     }
 
     @Test
-    @DisplayName("회원가입 실패. 유효하지 않은 정보들")
-    void signupFail() throws Exception {
-        // 어떤 가입 정보들이 유효하지 않은지 body에 json형태로 반환.
-        // 유효하지 않은 정보만 json에 추가. 유효성 검증한 속성은 추가 X
-        // ex: {"email": "유효하지 않은 양식입니다", "nickname":"닉네임이 중복입니다","name": "최소 2글자 이상 최대 16글자 이하입니다."}
+    @DisplayName("로그인 실패. 유효하지 않는 이메일")
+    void signin_fail_badRequest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "tmddn641com");
+        params.put("password", "vvee12");
 
-        // given
-        SignupDto request = new SignupDto("tmddn645", "1", "asdfasdf", "sksnnr12");
+        clearCookie();
+        postJsonRequest("/signin", params)
 
-        mockMvc.perform(post("/signup")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.response").isEmpty())
-                .andExpect(jsonPath("$.error.status").value(HttpStatus.BAD_REQUEST.value()));
+                .expectStatus()
+                .isBadRequest()
+
+                .expectBody()
+                .jsonPath("$.success").isEqualTo(false)
+                .jsonPath("$.response").isEmpty()
+                .jsonPath("$.error.status").isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
-    @DisplayName("로그인 성공")
-    void signinUserSuccess() throws Exception {
-        String email = "tmddn645@naver.com";
-        String password = "vvee12";
+    @DisplayName("회원가입 성공.")
+    void signup_success_isOk() {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "asdf1234@naver.com");
+        params.put("nickname", "asdfqwer");
+        params.put("password", "vvee12");
+        params.put("name", "seungwoo");
 
-        SigninDto request = new SigninDto();
+        clearCookie();
+        postJsonRequest("/signup", params)
 
-        request.setEmail(email);
-        request.setPassword(password);
+                .expectStatus()
+                .isOk()
 
-        mockMvc.perform(post("/signin")
-                        .content(objectMapper.writeValueAsString(request))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.response").isEmpty())
-                .andExpect(jsonPath("$.error").doesNotExist());
-
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.success").isEqualTo(true)
+                .jsonPath("$.response").isEmpty()
+                .jsonPath("$.error").doesNotExist();
     }
+
+    @Test
+    @DisplayName("회원가입 실패. 이메일 중복")
+    void signup_fail_badRequest() {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "tmddn645@naver.com");
+        params.put("nickname", "asdfqwer");
+        params.put("password", "vvee12");
+        params.put("name", "seungwoo");
+
+        clearCookie();
+        postJsonRequest("/signup", params)
+
+                .expectStatus()
+                .isBadRequest()
+
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.success").isEqualTo(false)
+                .jsonPath("$.response").isEmpty()
+                .jsonPath("$.error.status").isEqualTo(HttpStatus.BAD_REQUEST.value())
+                .jsonPath("$.error.message").isEqualTo("중복된 이메일입니다");
+    }
+
+    @Test
+    @DisplayName("이메일 중복체크 성공")
+    void checkDuplicateEmail_succes_isOk() {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", "tmddn645@naver.com");
+
+        clearCookie();
+        postJsonRequest("/signup/email", params)
+
+                .expectStatus()
+                .isOk()
+
+                .expectBody()
+                .jsonPath("$.success").isEqualTo(true)
+                .jsonPath("$.response[0]").isEqualTo(true)
+                .jsonPath("$.error").doesNotExist();
+    }
+
+    @Test
+    @DisplayName("닉네임 중복체크 성공")
+    void checkDuplicateNickname_succes_isOk() {
+        Map<String, String> params = new HashMap<>();
+        params.put("nickname", "seungwooryu");
+
+        clearCookie();
+        postJsonRequest("/signup/nickname", params)
+
+                .expectStatus()
+                .isOk()
+
+                .expectBody()
+                .jsonPath("$.success").isEqualTo(true)
+                .jsonPath("$.response[0]").isEqualTo(true)
+                .jsonPath("$.error").doesNotExist();
+    }
+
 }
