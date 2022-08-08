@@ -20,8 +20,6 @@ public class CommentFacade {
         User sessionUser = userService.findUserByEmail(loggedInUserEmail);
         Post postWithComment = postService.findPostById(postId);
 
-        postService.validateUser(postWithComment, sessionUser);
-
         commentService.create(sessionUser, postWithComment, commentDto.getContents());
     }
 

@@ -18,7 +18,6 @@ class UserRepositoryTest {
     void existsByEmail() {
         //given
         String email = "tmddn645@naver.com";
-
         //when
         boolean existUser = userRepository.existsByEmail(email);
 
