@@ -53,7 +53,13 @@ public class AbstractControllerTests {
                 .header(HttpHeaders.COOKIE, cookie)
                 .body(Mono.just(params), Map.class)
                 .exchange();
+    }
 
+    protected ResponseSpec postRequest(String uri) {
+        return webTestClient.post()
+                .uri(uri)
+                .header(HttpHeaders.COOKIE, cookie)
+                .exchange();
     }
 
     protected ResponseSpec deleteRequest(String uri) {
