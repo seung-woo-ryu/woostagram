@@ -28,7 +28,7 @@ public class CommentController {
 
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<ApiResult<?>> delete(@PathVariable("comment_id") Long commentId, @LoggedInUser String loggedInUserEmail) {
-        commentFacade.delete(commentId, loggedInUserEmail);
-        return new ResponseEntity<>(success(true), HttpStatus.OK);
+        boolean result = commentFacade.delete(commentId, loggedInUserEmail);
+        return new ResponseEntity<>(success(result), HttpStatus.OK);
     }
 }
