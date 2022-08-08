@@ -57,7 +57,6 @@ class PostServiceTest {
     @Test
     @DisplayName("파일 업로드 성공.")
     void upload_success_returnPostId() {
-        doReturn(user).when(userRepository).findByEmail(anyString());
         doReturn(1L).when(post).getId();
         doReturn(post).when(postRepository).save(any(Post.class));
 
@@ -69,11 +68,10 @@ class PostServiceTest {
     @DisplayName("파일 삭제 성공")
     void delete_success_returnImageUrl() {
         doReturn(Optional.ofNullable(post)).when(postRepository).findById(any(Long.class));
-        doReturn(user).when(userRepository).findByEmail(anyString());
         doReturn(true).when(post).isAuthor(any(User.class));
         doNothing().when(postRepository).deleteById(any(Long.class));
 
-        assertThat(postService.delete(1L, any(User.class)))
+        assertThat(postService.delete(1L, user))
                 .isEqualTo(post.getImageUrl());
     }
 
@@ -82,18 +80,17 @@ class PostServiceTest {
     void delete_fail_throwPostNotFoundException() {
         doThrow(PostNotFoundException.class).when(postRepository).findById(any(Long.class));
         assertThrows(PostNotFoundException.class,
-                () -> postService.delete(1L, any(User.class)));
+                () -> postService.delete(1L, user));
     }
 
     @Test
     @DisplayName("파일 삭제 실패. 유저가 다른 사람의 포스트를 삭제할 경우")
     void delete_fail_throwAuthenticationException() {
         doReturn(Optional.ofNullable(post)).when(postRepository).findById(any(Long.class));
-        doReturn(user).when(userRepository).findByEmail(anyString());
         doReturn(false).when(post).isAuthor(any(User.class));
 
         assertThrows(AuthenticationException.class,
-                () -> postService.delete(1L, any(User.class)));
+                () -> postService.delete(1L, user));
     }
 
     @Test

@@ -13,24 +13,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
-
     private final PostRepository postRepository;
 
     @Transactional
     public Long upload(PostDto postDto, User user, String savedImagePath) {
         Post newPost = Post.of(postDto.getContent(), savedImagePath, user);
         Post savedPost = postRepository.save(newPost);
-
         return savedPost.getId();
     }
 
     @Transactional
-    public String delete(Long id, User sessionUser) {
-        Post post = findPostById(id);
+    public String delete(Long postId, User sessionUser) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
+
         final String imageUrl = post.getImageUrl();
 
         validateUser(post, sessionUser);
-        postRepository.deleteById(id);
+        postRepository.deleteById(postId);
 
         return imageUrl;
     }
@@ -41,8 +41,10 @@ public class PostService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Post findPostById(Long postId) {
-        return postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        return postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
     }
 
     //ToDo: 수정 페이지(프론트)작업되었을 때
