@@ -6,12 +6,16 @@ import com.seungwooryu.woostagram.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"author_id", "post_id"})
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Like extends BaseEntity {
@@ -22,10 +26,12 @@ public class Like extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
@@ -36,13 +42,5 @@ public class Like extends BaseEntity {
 
     public static Like of(User user, Post post) {
         return new Like(user, post);
-    }
-
-    public boolean isAuthor(User sessionUser) {
-        return this.user.getId().equals(sessionUser.getId());
-    }
-
-    public boolean doesBelongToPost(Post post) {
-        return this.post.getId().equals(post.getId());
     }
 }
