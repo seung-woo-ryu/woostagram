@@ -26,7 +26,7 @@ public class AbstractControllerTests {
     WebTestClient webTestClient;
     private String cookie;
     private static final String TEST_EMAIL = "tmddn645@naver.com";
-    private static final String TEST_PASSWORD = "vvee12";
+    private static final String TEST_PASSWORD = "qwerasdf";
 
     @BeforeEach
     protected void setup() {
