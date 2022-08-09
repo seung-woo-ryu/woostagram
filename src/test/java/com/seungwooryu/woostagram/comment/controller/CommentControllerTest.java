@@ -6,14 +6,18 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.DEFAULT_CONTENTS;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestComment1ByUser1AndPost1;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestPost1ByUser1;
+
 class CommentControllerTest extends AbstractControllerTests {
 
     @Test
     void create_success() {
         Map<String, String> params = new HashMap<>();
-        params.put("contents", "댓글 내용 작성. 최대 200글자까지");
+        params.put("contents", DEFAULT_CONTENTS);
 
-        postJsonRequest("/comment/post/1", params)
+        postJsonRequest("/comment/post/" + TestPost1ByUser1.getId(), params)
 
                 .expectStatus()
                 .isOk()
@@ -26,7 +30,7 @@ class CommentControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_success_returnTrue() {
-        deleteRequest("/comment/1")
+        deleteRequest("/comment/" + TestComment1ByUser1AndPost1.getId())
 
                 .expectStatus()
                 .isOk()

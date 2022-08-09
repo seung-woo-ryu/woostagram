@@ -23,7 +23,6 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
     @Mock
     UserRepository userRepository;
-
     @InjectMocks
     UserService userService;
     private EmailDto emailDto = new EmailDto();

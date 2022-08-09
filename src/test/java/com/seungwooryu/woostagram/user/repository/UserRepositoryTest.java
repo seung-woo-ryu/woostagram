@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.NEW_EMAIL;
+import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.NEW_NICKNAME;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestUser1;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -16,51 +19,31 @@ class UserRepositoryTest {
     @Test
     @DisplayName("중복된 유저 탐색 by email")
     void existsByEmail() {
-        //given
-        String email = "tmddn645@naver.com";
-        //when
-        boolean existUser = userRepository.existsByEmail(email);
+        boolean existUser = userRepository.existsByEmail(TestUser1.getEmail());
 
-        //then
         assertTrue(existUser);
     }
 
     @Test
     @DisplayName("중복되지 않은 유저 탐색 by email")
     void notExistsByEmail() {
-        //given
-        String email = "1231123@naver.com";
+        boolean notExistUser = !userRepository.existsByEmail(NEW_EMAIL);
 
-        //when
-        boolean notExistUser = !userRepository.existsByEmail(email);
-
-        //then
         assertTrue(notExistUser);
     }
 
     @Test
     @DisplayName("중복된 유저 탐색 by nickname")
     void existsByNickname() {
-        //given
-        String nickname = "seungwooryu";
-
-        //when
-        boolean existUser = userRepository.existsByNickname(nickname);
-
-        //then
+        boolean existUser = userRepository.existsByNickname(TestUser1.getNickname());
         assertTrue(existUser);
     }
 
     @Test
     @DisplayName("중복되지 않은 유저 탐색 by nickname")
     void notExistsByNickname() {
-        //given
-        String nickname = "seungwooryu123";
+        boolean notExistUser = !userRepository.existsByNickname(NEW_NICKNAME);
 
-        //when
-        boolean notExistUser = !userRepository.existsByNickname(nickname);
-
-        //then
         assertTrue(notExistUser);
     }
 }

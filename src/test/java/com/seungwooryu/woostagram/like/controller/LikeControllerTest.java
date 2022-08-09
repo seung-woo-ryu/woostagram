@@ -4,16 +4,20 @@ import com.seungwooryu.woostagram.AbstractControllerTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestLike1ByUser1AndPost1;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestPost1ByUser1;
+
 class LikeControllerTest extends AbstractControllerTests {
+    private final String WRONG_POST_ID = "404";
+    private final String WRONG_LIKE_ID = "404";
+
     @Test
     void create_success_isOk() {
-        postRequest("/like/post/1")
+        postRequest("/like/post/" + TestPost1ByUser1.getId())
                 .expectStatus()
                 .isOk()
 
                 .expectBody()
-                .consumeWith(System.out::println)
-
                 .jsonPath("$.success").isEqualTo(true)
                 .jsonPath("$.response").isEmpty()
                 .jsonPath("$.error").doesNotExist();
@@ -21,13 +25,11 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void create_fail_throwPostNotFoundException() {
-        postRequest("/like/post/4")
+        postRequest("/like/post/" + WRONG_POST_ID)
                 .expectStatus()
                 .isBadRequest()
 
                 .expectBody()
-                .consumeWith(System.out::println)
-
                 .jsonPath("$.success").isEqualTo(false)
                 .jsonPath("$.response").isEmpty()
                 .jsonPath("$.error.message").isEqualTo(HttpStatus.BAD_REQUEST.getReasonPhrase())
@@ -36,13 +38,11 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_success_isOk() {
-        deleteRequest("/like/post/1")
+        deleteRequest("/like/post/" + TestLike1ByUser1AndPost1.getId())
                 .expectStatus()
                 .isOk()
 
                 .expectBody()
-                .consumeWith(System.out::println)
-
                 .jsonPath("$.success").isEqualTo(true)
                 .jsonPath("$.response.[0]").isEqualTo(true)
                 .jsonPath("$.error").doesNotExist();
@@ -50,13 +50,11 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_fail_throwPostNotFoundException() {
-        deleteRequest("/like/post/4")
+        deleteRequest("/like/post/" + WRONG_POST_ID)
                 .expectStatus()
                 .isBadRequest()
 
                 .expectBody()
-                .consumeWith(System.out::println)
-
                 .jsonPath("$.success").isEqualTo(false)
                 .jsonPath("$.response").isEmpty()
                 .jsonPath("$.error.message").isEqualTo(HttpStatus.BAD_REQUEST.getReasonPhrase())
@@ -65,13 +63,11 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_fail_throwLikeNotExistsException() {
-        deleteRequest("/like/post/2")
+        deleteRequest("/like/post/" + WRONG_LIKE_ID)
                 .expectStatus()
                 .isBadRequest()
 
                 .expectBody()
-                .consumeWith(System.out::println)
-
                 .jsonPath("$.success").isEqualTo(false)
                 .jsonPath("$.response").isEmpty()
                 .jsonPath("$.error.message").isEqualTo(HttpStatus.BAD_REQUEST.getReasonPhrase())
