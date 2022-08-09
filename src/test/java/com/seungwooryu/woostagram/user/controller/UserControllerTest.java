@@ -9,13 +9,16 @@ import org.springframework.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.*;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestUser1;
+
 class UserControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("로그인 성공.")
     void signin_success_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", "tmddn645@naver.com");
-        params.put("password", "vvee12");
+        params.put("email", TestUser1.getEmail());
+        params.put("password", TestUser1.getPassword());
 
         clearCookie();
         postJsonRequest("/signin", params)
@@ -40,8 +43,8 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("로그인 실패. 유효하지 않는 이메일")
     void signin_fail_badRequest() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", "tmddn641com");
-        params.put("password", "vvee12");
+        params.put("email", UNCORRECT_EMAIL);
+        params.put("password", DEFAULT_PASSWORD);
 
         clearCookie();
         postJsonRequest("/signin", params)
@@ -59,10 +62,10 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("회원가입 성공.")
     void signup_success_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", "asdf1234@naver.com");
-        params.put("nickname", "asdfqwer");
-        params.put("password", "vvee12");
-        params.put("name", "seungwoo");
+        params.put("email", NEW_EMAIL);
+        params.put("nickname", NEW_NICKNAME);
+        params.put("password", DEFAULT_PASSWORD);
+        params.put("name", DEFAULT_NAME);
 
         clearCookie();
         postJsonRequest("/signup", params)
@@ -81,10 +84,10 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("회원가입 실패. 이메일 중복")
     void signup_fail_badRequest() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", "tmddn645@naver.com");
-        params.put("nickname", "asdfqwer");
-        params.put("password", "vvee12");
-        params.put("name", "seungwoo");
+        params.put("email", TestUser1.getEmail());
+        params.put("nickname", NEW_NICKNAME);
+        params.put("password", DEFAULT_PASSWORD);
+        params.put("name", DEFAULT_NAME);
 
         clearCookie();
         postJsonRequest("/signup", params)
@@ -104,7 +107,7 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("이메일 중복체크 성공")
     void checkDuplicateEmail_succes_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", "tmddn645@naver.com");
+        params.put("email", TestUser1.getEmail());
 
         clearCookie();
         postJsonRequest("/signup/email", params)
@@ -122,7 +125,7 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("닉네임 중복체크 성공")
     void checkDuplicateNickname_succes_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("nickname", "seungwooryu");
+        params.put("nickname", TestUser1.getNickname());
 
         clearCookie();
         postJsonRequest("/signup/nickname", params)

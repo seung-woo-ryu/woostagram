@@ -1,5 +1,7 @@
 package com.seungwooryu.woostagram.user.repository;
 
+import com.seungwooryu.woostagram.user.domain.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,58 +11,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class UserRepositoryTest {
-
     @Autowired
     UserRepository userRepository;
+    private final String NEW_USER_EMAIL = "notFound@naver.com";
+    private final String NEW_NICKNAME = "newNickname";
+    private User user;
+
+    @BeforeEach
+    void setUp() {
+        user = userRepository.save(User.of("tmddn645@naver.com", "name", "nickname", "vvee12", "default_comment", "default_url"));
+    }
 
     @Test
     @DisplayName("중복된 유저 탐색 by email")
     void existsByEmail() {
-        //given
-        String email = "tmddn645@naver.com";
-        //when
-        boolean existUser = userRepository.existsByEmail(email);
-
-        //then
+        boolean existUser = userRepository.existsByEmail(user.getEmail());
         assertTrue(existUser);
     }
 
     @Test
     @DisplayName("중복되지 않은 유저 탐색 by email")
     void notExistsByEmail() {
-        //given
-        String email = "1231123@naver.com";
+        boolean notExistUser = !userRepository.existsByEmail(NEW_USER_EMAIL);
 
-        //when
-        boolean notExistUser = !userRepository.existsByEmail(email);
-
-        //then
         assertTrue(notExistUser);
     }
 
     @Test
     @DisplayName("중복된 유저 탐색 by nickname")
     void existsByNickname() {
-        //given
-        String nickname = "seungwooryu";
-
-        //when
-        boolean existUser = userRepository.existsByNickname(nickname);
-
-        //then
+        boolean existUser = userRepository.existsByNickname(user.getNickname());
         assertTrue(existUser);
     }
 
     @Test
     @DisplayName("중복되지 않은 유저 탐색 by nickname")
     void notExistsByNickname() {
-        //given
-        String nickname = "seungwooryu123";
+        boolean notExistUser = !userRepository.existsByNickname(NEW_NICKNAME);
 
-        //when
-        boolean notExistUser = !userRepository.existsByNickname(nickname);
-
-        //then
         assertTrue(notExistUser);
     }
 }
