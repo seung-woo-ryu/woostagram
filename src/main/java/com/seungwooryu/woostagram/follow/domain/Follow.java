@@ -1,7 +1,6 @@
-package com.seungwooryu.woostagram.like.domain;
+package com.seungwooryu.woostagram.follow.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
-import com.seungwooryu.woostagram.post.domain.Post;
 import com.seungwooryu.woostagram.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,14 +10,13 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "likes", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"author_id", "post_id"})
+@Table(name = "follows", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"from_id", "to_id"})
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like extends BaseEntity {
+public class Follow extends BaseEntity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -27,20 +25,20 @@ public class Like extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "from_id", referencedColumnName = "id")
+    private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
-    private Post post;
+    @JoinColumn(name = "to_id", referencedColumnName = "id")
+    private User toUser;
 
-    private Like(User user, Post post) {
-        this.user = user;
-        this.post = post;
+    private Follow(User fromUser, User toUser) {
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 
-    public static Like of(User user, Post post) {
-        return new Like(user, post);
+    public static Follow of(User fromUser, User toUser) {
+        return new Follow(fromUser, toUser);
     }
 }

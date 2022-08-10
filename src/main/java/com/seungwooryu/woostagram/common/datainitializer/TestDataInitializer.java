@@ -2,6 +2,8 @@ package com.seungwooryu.woostagram.common.datainitializer;
 
 import com.seungwooryu.woostagram.comment.domain.Comment;
 import com.seungwooryu.woostagram.comment.repository.CommentRepository;
+import com.seungwooryu.woostagram.follow.domain.Follow;
+import com.seungwooryu.woostagram.follow.repository.FollowRepository;
 import com.seungwooryu.woostagram.like.domain.Like;
 import com.seungwooryu.woostagram.like.repository.LikeRepository;
 import com.seungwooryu.woostagram.post.domain.Post;
@@ -24,6 +26,7 @@ public class TestDataInitializer implements ApplicationRunner {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
+    private final FollowRepository followRepository;
     public static User TestUser1;
     public static User TestUser2;
     public static User TestUser3;
@@ -38,6 +41,8 @@ public class TestDataInitializer implements ApplicationRunner {
     public static Comment TestComment1ByUser3AndPost2;
     public static Like TestLike1ByUser1AndPost1;
     public static Like TestLike2ByUser2AndPost1;
+
+    public static Follow TestFollow1FromUser1toUser2;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -60,6 +65,12 @@ public class TestDataInitializer implements ApplicationRunner {
 
         TestLike1ByUser1AndPost1 = saveLike(TestUser1, TestPost1ByUser1);
         TestLike2ByUser2AndPost1 = saveLike(TestUser2, TestPost1ByUser1);
+
+        TestFollow1FromUser1toUser2 = saveFollow(TestUser1, TestUser2);
+    }
+
+    private Follow saveFollow(User testUser1, User testUser2) {
+        return followRepository.save(Follow.of(testUser1, testUser2));
     }
 
     private User saveUser(String email, String name, String nickname) {

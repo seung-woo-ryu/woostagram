@@ -70,5 +70,10 @@ public class UserService {
     private boolean existsByNickname(String Nickname) {
         return userRepository.existsByNickname(Nickname);
     }
+
+    public User findUserById(Long followedUserId) {
+        return userRepository.findById(followedUserId)
+                .orElseThrow(UserNotFoundException::new);
+    }
 }
 

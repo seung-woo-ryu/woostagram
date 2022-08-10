@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 @ToString
 public class UserDto {
+    private Long id;
     private String email;
     private String name;
     private String nickname;

@@ -86,8 +86,7 @@ class LikeServiceTest {
 
         assertThrows(LikeNotExistsException.class,
                 () -> likeService.delete(user, post));
-
-        verify(like, times(0)).doesBelongToPost(any(Post.class));
+        
         verify(likeRepository, times(0)).delete(any(Like.class));
     }
 }
