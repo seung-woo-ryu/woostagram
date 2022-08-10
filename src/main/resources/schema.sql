@@ -62,6 +62,6 @@ create table likes (
     foreign key (post_id) references posts(id) on update cascade on delete cascade
 );
 
-ALTER TABLE comments ADD UNIQUE (author_id,post_id);
-ALTER TABLE likes ADD UNIQUE (author_id,post_id);
 ALTER TABLE follows ADD UNIQUE (from_id,to_id);
+ALTER TABLE likes ADD UNIQUE (author_id,post_id);
+
