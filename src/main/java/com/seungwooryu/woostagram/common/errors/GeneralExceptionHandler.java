@@ -24,7 +24,7 @@ public class GeneralExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ApiResult<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(error(e.getMessage(), httpStatus), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(error(e.getMessage(), httpStatus), httpStatus);
     }
 
     @ExceptionHandler({CustomException.class})
@@ -32,4 +32,12 @@ public class GeneralExceptionHandler {
         final HttpStatus httpStatus = e.getHttpStatus();
         return new ResponseEntity<>(error(e.getMessage(), httpStatus), httpStatus);
     }
+
+    @ExceptionHandler({RuntimeException.class})
+    public ResponseEntity<ApiResult<?>> handleDuplicatedArgumentException(RuntimeException e) {
+        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(error(e.getMessage(), httpStatus), httpStatus);
+    }
+
+
 }

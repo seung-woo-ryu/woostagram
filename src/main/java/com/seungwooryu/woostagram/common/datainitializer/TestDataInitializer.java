@@ -36,6 +36,9 @@ public class TestDataInitializer implements ApplicationRunner {
     public static Post TestPost1ByUser2;
     public static Post TestPost2ByUser2;
     public static Post TestPost3ByUser2;
+    public static Post TestPost1ByUser3;
+    public static Post TestPost2ByUser3;
+    public static Post TestPost3ByUser3;
     public static Comment TestComment1ByUser1AndPost1;
     public static Comment TestComment2ByUser2AndPost1;
     public static Comment TestComment1ByUser3AndPost2;
@@ -43,6 +46,7 @@ public class TestDataInitializer implements ApplicationRunner {
     public static Like TestLike2ByUser2AndPost1;
 
     public static Follow TestFollow1FromUser1toUser2;
+    public static Follow TestFollow2FromUser1toUser3;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -58,6 +62,10 @@ public class TestDataInitializer implements ApplicationRunner {
         TestPost2ByUser2 = savePost(TestUser2);
         TestPost3ByUser2 = savePost(TestUser2);
 
+        TestPost1ByUser3 = savePost(TestUser3);
+        TestPost2ByUser3 = savePost(TestUser3);
+        TestPost3ByUser3 = savePost(TestUser3);
+
         TestComment1ByUser1AndPost1 = saveComment(TestUser1, TestPost1ByUser1);
         TestComment2ByUser2AndPost1 = saveComment(TestUser2, TestPost1ByUser1);
 
@@ -67,6 +75,7 @@ public class TestDataInitializer implements ApplicationRunner {
         TestLike2ByUser2AndPost1 = saveLike(TestUser2, TestPost1ByUser1);
 
         TestFollow1FromUser1toUser2 = saveFollow(TestUser1, TestUser2);
+        TestFollow2FromUser1toUser3 = saveFollow(TestUser1, TestUser1);
     }
 
     private Follow saveFollow(User testUser1, User testUser2) {

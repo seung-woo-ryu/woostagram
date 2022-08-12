@@ -7,31 +7,38 @@ import com.seungwooryu.woostagram.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FollowService {
     private final FollowRepository followRepository;
 
-    public void create(User follower, User followedUser) {
-        if (checkNotExistsFollow(follower.getId(), followedUser.getId())) {
-            Follow newFollow = Follow.of(follower, followedUser);
+    public void create(User fromUser, User toUser) {
+        if (checkNotExistsFollow(fromUser.getId(), toUser.getId())) {
+            Follow newFollow = Follow.of(fromUser, toUser);
             followRepository.save(newFollow);
         }
     }
 
-    public boolean delete(User follower, User followedUser) {
-        Follow follow = findByFromIdAndToId(follower.getId(), followedUser.getId());
+    public boolean delete(User fromUser, User toUser) {
+        Follow follow = findByFromIdAndToId(fromUser.getId(), toUser.getId());
         followRepository.delete(follow);
 
         return true;
     }
 
-    private boolean checkNotExistsFollow(Long followerId, Long followedUserId) {
-        return !followRepository.existsByFromUser_IdAndToUser_Id(followerId, followedUserId);
+    private boolean checkNotExistsFollow(Long fromId, Long toId) {
+        return !followRepository.existsByFromUser_IdAndToUser_Id(fromId, toId);
     }
 
-    private Follow findByFromIdAndToId(Long followerId, Long followedUserId) {
-        return followRepository.findByFromUser_IdAndToUser_Id(followerId, followedUserId)
+    private Follow findByFromIdAndToId(Long fromId, Long toId) {
+        return followRepository.findByFromUser_IdAndToUser_Id(fromId, toId)
                 .orElseThrow(FollowNotFoundException::new);
+    }
+
+
+    public List<Follow> findAllByFromId(Long fromId) {
+        return followRepository.findAllByFromUser_Id(fromId);
     }
 }

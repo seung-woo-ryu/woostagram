@@ -2,7 +2,8 @@ package com.seungwooryu.woostagram.user.dto;
 
 import com.seungwooryu.woostagram.user.domain.User;
 import lombok.*;
-import org.springframework.beans.BeanUtils;
+
+import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Setter
 @Getter
@@ -19,6 +20,6 @@ public class UserDto {
     private String profileUrl;
 
     public UserDto(User source) {
-        BeanUtils.copyProperties(source, this);
+        copyProperties(source, this);
     }
 }
