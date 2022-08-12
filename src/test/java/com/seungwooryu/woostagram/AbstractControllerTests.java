@@ -53,6 +53,14 @@ public class AbstractControllerTests {
                 .exchange();
     }
 
+    protected ResponseSpec getRequest(String uri) {
+        return webTestClient.get()
+                .uri(uri)
+                .header(HttpHeaders.COOKIE, cookie)
+                .exchange();
+    }
+
+
     protected ResponseSpec postRequest(String uri) {
         return webTestClient.post()
                 .uri(uri)
