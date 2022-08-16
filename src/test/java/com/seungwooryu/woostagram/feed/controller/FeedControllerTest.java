@@ -43,7 +43,6 @@ class FeedControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("@RequestMapping 타입 불일치 에러")
     void get_fail_throwRuntimeException() {
-
         getRequest("/feed/post/abc")
                 .expectStatus()
                 .isBadRequest()
@@ -57,7 +56,6 @@ class FeedControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("@PathVariable 타입 불일치 에러")
     void get_fail_throwRuntimeException2() {
-
         getRequest("/feed/post/7?size=abcd")
                 .expectStatus()
                 .isBadRequest()

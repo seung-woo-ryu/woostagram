@@ -7,8 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 class PostRepositoryTest {
@@ -51,17 +57,17 @@ class PostRepositoryTest {
     @Test
     void findAllByAuthorIdIn() {
         //given
-        /*List<Long> targetIdList = Arrays.asList(user3.getId(), user2.getId());
+        List<Long> targetIdList = Arrays.asList(user3.getId(), user2.getId());
         List<Long> userIdList = new ArrayList<>(targetIdList);
         long target = 0;
-
+        PageRequest pageRequest = PageRequest.of(0, 2);
         //when
         for (Long userId : targetIdList) {
-            target += postRepository.findAllByAuthorIdIn(Arrays.asList(userId), 1L).size();
+            target += postRepository.findAllByAuthorIdIn(Arrays.asList(userId), pageRequest).size();
         }
-        List<Post> result = postRepository.findAllByAuthorIdIn(userIdList, 100L);
+        List<Post> result = postRepository.findAllByAuthorIdIn(userIdList, pageRequest);
 
         //then
-        assertThat(result.size()).isEqualTo(targetIdList.size());*/
+        assertThat(result.size()).isEqualTo(targetIdList.size());
     }
 }
