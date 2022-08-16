@@ -7,7 +7,6 @@ import com.seungwooryu.woostagram.post.repository.PostRepository;
 import com.seungwooryu.woostagram.user.domain.User;
 import com.seungwooryu.woostagram.user.dto.UserDto;
 import com.seungwooryu.woostagram.user.exception.AuthenticationException;
-import com.seungwooryu.woostagram.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,11 +26,14 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
+    @Mock
+    PostRepository postRepository;
+    @InjectMocks
+    PostService postService;
     @Spy
     private User user = user = User.of("tmddn64@naver.com", "seungwoo", "ohzsh", "vvee12", "comment", "imageUrl");
     ;
     private UserDto userDto;
-
     @Spy
     private Post post = Post.of("contents", "image url", user);
     ;
@@ -47,20 +49,13 @@ class PostServiceTest {
         postDto.setImageFile(multipartFile);
     }
 
-    @Mock
-    PostRepository postRepository;
-    @Mock
-    UserRepository userRepository;
-    @InjectMocks
-    PostService postService;
-
     @Test
     @DisplayName("파일 업로드 성공.")
     void upload_success_returnPostId() {
         doReturn(1L).when(post).getId();
         doReturn(post).when(postRepository).save(any(Post.class));
 
-        assertThat(postService.upload(postDto, any(User.class), "any path"))
+        assertThat(postService.upload(postDto, any(User.class), "any path").getId())
                 .isEqualTo(1L);
     }
 
