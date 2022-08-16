@@ -16,10 +16,9 @@ public class PostService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Long upload(PostDto postDto, User user, String savedImagePath) {
+    public Post upload(PostDto postDto, User user, String savedImagePath) {
         Post newPost = Post.of(postDto.getContent(), savedImagePath, user);
-        Post savedPost = postRepository.save(newPost);
-        return savedPost.getId();
+        return postRepository.save(newPost);
     }
 
     @Transactional

@@ -2,6 +2,7 @@ package com.seungwooryu.woostagram.user.domain;
 
 import com.seungwooryu.woostagram.common.domain.BaseEntity;
 import com.seungwooryu.woostagram.user.dto.SignupDto;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class User extends BaseEntity {
     @Id

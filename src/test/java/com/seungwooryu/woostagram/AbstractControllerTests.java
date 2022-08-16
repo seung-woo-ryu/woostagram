@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
+import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -52,6 +53,15 @@ public class AbstractControllerTests {
                 .body(Mono.just(params), Map.class)
                 .exchange();
     }
+
+    protected ResponseSpec postMultipartRequest(String uri, MultiValueMap params) {
+        return webTestClient.post()
+                .uri(uri)
+                .header(HttpHeaders.COOKIE, cookie)
+                .bodyValue(params)
+                .exchange();
+    }
+
 
     protected ResponseSpec getRequest(String uri) {
         return webTestClient.get()
