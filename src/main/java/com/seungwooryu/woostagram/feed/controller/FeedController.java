@@ -22,10 +22,15 @@ import static org.springframework.data.domain.Pageable.ofSize;
 public class FeedController {
     private final FeedFacade feedFacade;
 
-    @GetMapping({"/feed/post/{post_id}", "/feed"})
+    @GetMapping({"/feeds/post/{post_id}", "/feeds"})
     public ResponseEntity<ApiResult<?>> get(@LoggedInUser String loggedInUserEmail, @PathVariable(required = false, name = "post_id") Long postId, @RequestParam(required = false, name = "size", defaultValue = "2") Integer size) {
-        List<FeedDto> FeedDtoList = feedFacade.get(loggedInUserEmail, postId, ofSize(size));
-        return new ResponseEntity<>(success(FeedDtoList), HttpStatus.OK);
+        List<FeedDto> feedDtoList = feedFacade.get(loggedInUserEmail, postId, ofSize(size));
+        return new ResponseEntity<>(success(feedDtoList), HttpStatus.OK);
+    }
 
+    @GetMapping({"/feed/post/{post_id}"})
+    public ResponseEntity<ApiResult<?>> getOne(@LoggedInUser String loggedInUserEmail, @PathVariable(required = false, name = "post_id") Long postId) {
+        FeedDto feedDto = feedFacade.getOne(loggedInUserEmail, postId);
+        return new ResponseEntity<>(success(feedDto), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.seungwooryu.woostagram.tag.domain.Tag;
 import com.seungwooryu.woostagram.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class TagService {
     private static final Pattern TAG_PATTERN = Pattern.compile("#[A-Za-zㄱ-힣0-9_]{1,10}");
     private final TagRepository tagRepository;
 
+    @Transactional
     public List<Tag> create(String content) {
         List<String> AllTagStringList = parseContent(content);
         List<Tag> registeredTagList = findRegisteredTagList(AllTagStringList);

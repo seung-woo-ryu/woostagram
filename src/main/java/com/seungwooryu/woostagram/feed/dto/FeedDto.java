@@ -24,15 +24,19 @@ public class FeedDto {
     @JsonProperty("comment_list")
     List<CommentDto> commentList;
 
-    private FeedDto(List<CommentDto> commentDtoListOrderByCreatedAtDesc, Long likeCount, Post post) {
+    @JsonProperty("is_author")
+    boolean isAuthor;
+
+    private FeedDto(List<CommentDto> commentDtoListOrderByCreatedAtDesc, Long likeCount, Post post, Boolean isAuthor) {
         this.postId = post.getId();
         this.commentList = commentDtoListOrderByCreatedAtDesc;
         this.likeCount = likeCount;
         this.authorDto = AuthorDto.of(post.getUser());
         this.articleDto = ArticleDto.of(post);
+        this.isAuthor = isAuthor;
     }
 
-    public static FeedDto of(List<CommentDto> commentDtoListOrderByCreatedAtDesc, Long likeCount, Post post) {
-        return new FeedDto(commentDtoListOrderByCreatedAtDesc, likeCount, post);
+    public static FeedDto of(List<CommentDto> commentDtoListOrderByCreatedAtDesc, Long likeCount, Post post, Boolean isAuthor) {
+        return new FeedDto(commentDtoListOrderByCreatedAtDesc, likeCount, post, isAuthor);
     }
 }
