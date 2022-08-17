@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -20,6 +22,20 @@ class UserRepositoryTest {
     @BeforeEach
     void setUp() {
         user = userRepository.save(User.of("tmddn645@naver.com", "name", "nickname", "vvee12", "default_comment", "default_url"));
+        userRepository.save(User.of("tmddn644@naver.com", "name", "asdf121", "vvee12", "default_comment", "default_url"));
+        userRepository.save(User.of("tmddn643@naver.com", "name", "k123vsd", "vvee12", "default_comment", "default_url"));
+    }
+
+    @Test
+    @DisplayName("와일드카드 테스트")
+    void findByNicknameLike() {
+        String wildcard = "%#%";
+        StringBuilder stringBuilder = new StringBuilder();
+        String wildcardWord = stringBuilder.append("%").append("#").append("%").toString();
+        List<User> userList = userRepository.findAllByNicknameLike(wildcardWord);
+        System.out.println(userList);
+        /*assertThat(userList).isNotEmpty()
+                .hasSize(2);*/
     }
 
     @Test

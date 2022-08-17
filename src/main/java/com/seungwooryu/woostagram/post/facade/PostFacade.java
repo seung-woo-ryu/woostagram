@@ -32,7 +32,7 @@ public class PostFacade {
     public Long upload(PostDto postDto, String loggedInUserEmail) {
         final String savedImagePath = fileService.upload(postDto.getImageFile(), FOLDER_NAME);
         Post savedPost = postService.upload(postDto, userService.findUserByEmail(loggedInUserEmail), savedImagePath);
-        List<Tag> savedTagList = tagService.upload(postDto.getContent());
+        List<Tag> savedTagList = tagService.create(postDto.getContent());
         hashTagService.saveHashTags(savedPost, savedTagList);
         return savedPost.getId();
     }
