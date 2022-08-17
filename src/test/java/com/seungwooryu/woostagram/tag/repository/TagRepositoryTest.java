@@ -12,8 +12,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 class TagRepositoryTest {
@@ -45,5 +47,21 @@ class TagRepositoryTest {
 
         List<Tag> allByNameIn = tagRepository.findAllByNameIn(tagStringList);
         System.out.println(allByNameIn);
+    }
+
+    @Test
+    void findAllByNicknameLike() {
+        String wildCard = "%%";
+        List<Tag> answerList = Arrays.asList(tag1, tag2, tag3);
+
+        List<Tag> tagList = tagRepository.findAllByNameLike(wildCard);
+        List<String> collect = tagList.stream().map(tag -> tag.getName()).collect(Collectors.toList());
+
+        System.out.println(tagList);
+        System.out.println(collect);
+
+        assertThat(tagList)
+                .hasSize(3)
+                .containsAll(answerList);
     }
 }

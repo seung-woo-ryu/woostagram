@@ -4,9 +4,11 @@ import com.seungwooryu.woostagram.AbstractControllerTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 class PostControllerTest extends AbstractControllerTests {
     @Test
+    @Transactional
     void upload_success() {
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
 

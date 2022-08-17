@@ -17,11 +17,16 @@ public class TagService {
     private static final Pattern TAG_PATTERN = Pattern.compile("#[A-Za-zㄱ-힣0-9_]{1,10}");
     private final TagRepository tagRepository;
 
-    public List<Tag> upload(String content) {
-        List<String> tagStringList = parseContent(content);
-        List<Tag> notRegisteredTagList = pickOutNotRegisteredTag(tagStringList);
+    public List<Tag> create(String content) {
+        List<String> AllTagStringList = parseContent(content);
+        List<Tag> registeredTagList = findRegisteredTagList(AllTagStringList);
+        List<Tag> notRegisteredTagList = pickOutNotRegisteredTag(AllTagStringList, registeredTagList);
 
-        return saveTags(notRegisteredTagList);
+        saveTags(notRegisteredTagList);
+
+        registeredTagList.addAll(notRegisteredTagList);
+
+        return registeredTagList;
     }
 
     private List<String> parseContent(String content) {
@@ -35,23 +40,32 @@ public class TagService {
         return tagStringList;
     }
 
-    private List<Tag> pickOutNotRegisteredTag(List<String> tagStringList) {
-        List<String> registeredTagList = tagRepository.findAllByNameIn(tagStringList)
-                .stream()
+    private List<Tag> pickOutNotRegisteredTag(List<String> AllTagStringList, List<Tag> registeredTagList) {
+        List<String> registeredTagStringList = registeredTagList.stream()
                 .map(tag -> tag.getName())
                 .collect(Collectors.toList());
-
-        return tagStringList
+        return AllTagStringList
                 .stream()
-                .filter(tagString -> !registeredTagList.contains(tagString))
+                .filter(tagString -> !registeredTagStringList.contains(tagString))
                 .map(Tag::of)
                 .collect(Collectors.toList());
+    }
+
+    private List<Tag> findRegisteredTagList(List<String> tagStringList) {
+        return tagRepository.findAllByNameIn(tagStringList);
     }
 
     private List<Tag> saveTags(List<Tag> notRegisteredTagList) {
         return notRegisteredTagList
                 .stream()
                 .map((tag) -> tagRepository.save(tag))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> findAllByNameLike(String wildcardWord) {
+        return tagRepository.findAllByNameLike(wildcardWord)
+                .stream()
+                .map(tag -> tag.getName())
                 .collect(Collectors.toList());
     }
 }
