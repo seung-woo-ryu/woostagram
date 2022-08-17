@@ -6,6 +6,7 @@ import com.seungwooryu.woostagram.follow.repository.FollowRepository;
 import com.seungwooryu.woostagram.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class FollowService {
     private final FollowRepository followRepository;
 
+    @Transactional
     public void create(User fromUser, User toUser) {
         if (checkNotExistsFollow(fromUser.getId(), toUser.getId())) {
             Follow newFollow = Follow.of(fromUser, toUser);
@@ -21,6 +23,7 @@ public class FollowService {
         }
     }
 
+    @Transactional
     public boolean delete(User fromUser, User toUser) {
         Follow follow = findByFromIdAndToId(fromUser.getId(), toUser.getId());
         followRepository.delete(follow);
@@ -28,16 +31,18 @@ public class FollowService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     private boolean checkNotExistsFollow(Long fromId, Long toId) {
         return !followRepository.existsByFromUser_IdAndToUser_Id(fromId, toId);
     }
 
+    @Transactional(readOnly = true)
     private Follow findByFromIdAndToId(Long fromId, Long toId) {
         return followRepository.findByFromUser_IdAndToUser_Id(fromId, toId)
                 .orElseThrow(FollowNotFoundException::new);
     }
 
-
+    @Transactional(readOnly = true)
     public List<Follow> findAllByFromId(Long fromId) {
         return followRepository.findAllByFromUser_Id(fromId);
     }

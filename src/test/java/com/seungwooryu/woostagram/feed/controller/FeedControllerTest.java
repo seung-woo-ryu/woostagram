@@ -14,7 +14,7 @@ class FeedControllerTest extends AbstractControllerTests {
         Long LastFeedId = 6L;
         Long size = 2L;
 
-        getRequest("/feed/post/" + LastFeedId.toString() + "?size=" + size.toString())
+        getRequest("/feeds/post/" + LastFeedId.toString() + "?size=" + size.toString())
                 .expectStatus()
                 .isOk()
 
@@ -30,7 +30,7 @@ class FeedControllerTest extends AbstractControllerTests {
         Long LastFeedId = 1L;
         Long size = 2L;
 
-        getRequest("/feed/post/" + LastFeedId.toString() + "?size=" + size.toString())
+        getRequest("/feeds/post/" + LastFeedId.toString() + "?size=" + size.toString())
                 .expectStatus()
                 .isOk()
 
@@ -43,7 +43,7 @@ class FeedControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("@RequestMapping 타입 불일치 에러")
     void get_fail_throwRuntimeException() {
-        getRequest("/feed/post/abc")
+        getRequest("/feeds/post/abc")
                 .expectStatus()
                 .isBadRequest()
 
@@ -56,7 +56,7 @@ class FeedControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("@PathVariable 타입 불일치 에러")
     void get_fail_throwRuntimeException2() {
-        getRequest("/feed/post/7?size=abcd")
+        getRequest("/feeds/post/7?size=abcd")
                 .expectStatus()
                 .isBadRequest()
 

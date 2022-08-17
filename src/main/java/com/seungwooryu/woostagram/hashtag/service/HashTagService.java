@@ -6,6 +6,7 @@ import com.seungwooryu.woostagram.post.domain.Post;
 import com.seungwooryu.woostagram.tag.domain.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class HashTagService {
     private final HashTagRepository hashTagRepository;
 
+    @Transactional
     public void saveHashTags(Post post, List<Tag> tagList) {
         for (Tag tag : tagList) {
             save(post, tag);

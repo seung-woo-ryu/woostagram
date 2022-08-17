@@ -7,6 +7,7 @@ import com.seungwooryu.woostagram.follow.service.FollowService;
 import com.seungwooryu.woostagram.like.repository.LikeRepository;
 import com.seungwooryu.woostagram.post.domain.Post;
 import com.seungwooryu.woostagram.post.repository.PostRepository;
+import com.seungwooryu.woostagram.post.service.PostService;
 import com.seungwooryu.woostagram.user.domain.User;
 import com.seungwooryu.woostagram.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class FeedFacade {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
+    private final PostService postService;
 
     @Transactional(readOnly = true)
     public List<FeedDto> get(String loggedInUserEmail, Long postId, Pageable page) {
@@ -35,8 +37,17 @@ public class FeedFacade {
 
         List<Post> postListByFollowing = getPostByCursorBasedPagination(followingUserIdList, postId, page);
 
-        return createFeedDtoList(postListByFollowing);
+        return createFeedDtoList(postListByFollowing, sessionUser);
     }
+
+    @Transactional(readOnly = true)
+    public FeedDto getOne(String loggedInUserEmail, Long postId) {
+        User sessionUser = userService.findUserByEmail(loggedInUserEmail);
+        Post post = postService.findPostById(postId);
+
+        return createFeedDto(post, sessionUser);
+    }
+
 
     private List<Post> getPostByCursorBasedPagination(List<Long> followingUserIdList, Long postId, Pageable page) {
         return Optional.ofNullable(postId).isPresent() ?
@@ -44,17 +55,18 @@ public class FeedFacade {
                 postRepository.findAllByAuthorIdIn(followingUserIdList, page);
     }
 
-    private List<FeedDto> createFeedDtoList(List<Post> postListByFollowing) {
+    private List<FeedDto> createFeedDtoList(List<Post> postListByFollowing, User sessionUser) {
         return postListByFollowing
                 .stream()
-                .map((post) -> createFeedDto(post))
+                .map((post) -> createFeedDto(post, sessionUser))
                 .collect(Collectors.toList());
     }
 
-    private FeedDto createFeedDto(Post post) {
+    private FeedDto createFeedDto(Post post, User sessionUser) {
         List<CommentDto> commentDtoList = createCommentDtoList(post);
         Long likeCount = likeRepository.countByPost_id(post.getId());
-        return FeedDto.of(commentDtoList, likeCount, post);
+        Boolean isAuthor = post.isAuthor(sessionUser);
+        return FeedDto.of(commentDtoList, likeCount, post, isAuthor);
     }
 
     private List<CommentDto> createCommentDtoList(Post post) {
