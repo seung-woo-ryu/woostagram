@@ -4,13 +4,13 @@ import com.seungwooryu.woostagram.AbstractControllerTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestUser2;
-import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestUser3;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.testUser2;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.testUser3;
 
 class FollowControllerTest extends AbstractControllerTests {
     @Test
     void create_success() {
-        postRequest("/follow/user/" + TestUser3.getId())
+        postRequest("/follow/user/" + testUser3.getId())
                 .expectStatus()
                 .isOk()
 
@@ -22,7 +22,7 @@ class FollowControllerTest extends AbstractControllerTests {
 
     @Test
     void createAlreadyExistsFollow_success() {
-        postRequest("/follow/user/" + TestUser2.getId())
+        postRequest("/follow/user/" + testUser2.getId())
                 .expectStatus()
                 .isOk()
 
@@ -34,7 +34,7 @@ class FollowControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_success() {
-        deleteRequest("/follow/user/" + TestUser2.getId())
+        deleteRequest("/follow/user/" + testUser2.getId())
                 .expectStatus()
                 .isOk()
 
@@ -46,7 +46,7 @@ class FollowControllerTest extends AbstractControllerTests {
 
     @Test
     void deleteNotExistsFollow_fail() {
-        deleteRequest("/follow/user/" + TestUser3.getId())
+        deleteRequest("/follow/user/" + testUser3.getId())
                 .expectStatus()
                 .isBadRequest()
 
