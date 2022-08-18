@@ -73,16 +73,24 @@ public class UserService {
         return userRepository.existsByNickname(Nickname);
     }
 
+    @Transactional(readOnly = true)
     public User findUserById(Long followedUserId) {
         return userRepository.findById(followedUserId)
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
     public List<String> findAllByNicknameLike(String wildcardWord) {
         return userRepository.findAllByNicknameLike(wildcardWord)
                 .stream()
                 .map(user -> user.getNickname())
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public User findUserByNickname(String nickname) {
+        return userRepository.findByNickname(nickname)
+                .orElseThrow(UserNotFoundException::new);
     }
 }
 

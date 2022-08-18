@@ -70,4 +70,23 @@ class PostRepositoryTest {
         //then
         assertThat(result.size()).isEqualTo(targetIdList.size());
     }
+
+    @Test
+    void findAllByUser_Nickname() {
+        String nickname = user1.getNickname();
+        List<Post> answerList = Arrays.asList(post1ByUser1, post2ByUser1, post3ByUser1);
+
+        List<Post> postList = postRepository.findAllByUser_Nickname(nickname);
+
+        org.assertj.core.api.Assertions.assertThat(postList).containsAll(answerList);
+    }
+
+    @Test
+    void countByUser_Nickname() {
+        String nickname = user1.getNickname();
+
+        Long totalCnt = postRepository.countByUser_Nickname(nickname);
+
+        assertThat(totalCnt).isEqualTo(3);
+    }
 }

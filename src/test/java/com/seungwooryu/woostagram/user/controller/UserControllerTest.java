@@ -10,15 +10,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.seungwooryu.woostagram.common.datainitializer.TestConstants.*;
-import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestUser1;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.testUser1;
 
 class UserControllerTest extends AbstractControllerTests {
     @Test
     @DisplayName("로그인 성공.")
     void signin_success_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", TestUser1.getEmail());
-        params.put("password", TestUser1.getPassword());
+        params.put("email", testUser1.getEmail());
+        params.put("password", testUser1.getPassword());
 
         clearCookie();
         postJsonRequest("/signin", params)
@@ -84,7 +84,7 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("회원가입 실패. 이메일 중복")
     void signup_fail_badRequest() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", TestUser1.getEmail());
+        params.put("email", testUser1.getEmail());
         params.put("nickname", NEW_NICKNAME);
         params.put("password", DEFAULT_PASSWORD);
         params.put("name", DEFAULT_NAME);
@@ -107,7 +107,7 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("이메일 중복체크 성공")
     void checkDuplicateEmail_succes_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("email", TestUser1.getEmail());
+        params.put("email", testUser1.getEmail());
 
         clearCookie();
         postJsonRequest("/signup/email", params)
@@ -125,7 +125,7 @@ class UserControllerTest extends AbstractControllerTests {
     @DisplayName("닉네임 중복체크 성공")
     void checkDuplicateNickname_succes_isOk() {
         Map<String, String> params = new HashMap<>();
-        params.put("nickname", TestUser1.getNickname());
+        params.put("nickname", testUser1.getNickname());
 
         clearCookie();
         postJsonRequest("/signup/nickname", params)

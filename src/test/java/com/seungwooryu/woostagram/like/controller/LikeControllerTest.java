@@ -4,8 +4,8 @@ import com.seungwooryu.woostagram.AbstractControllerTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestLike1ByUser1AndPost1;
-import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.TestPost1ByUser1;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.testLike1ByUser1AndPost1;
+import static com.seungwooryu.woostagram.common.datainitializer.TestDataInitializer.testPost1ByUser1;
 
 class LikeControllerTest extends AbstractControllerTests {
     private final String WRONG_POST_ID = "404";
@@ -13,7 +13,7 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void create_success_isOk() {
-        postRequest("/like/post/" + TestPost1ByUser1.getId())
+        postRequest("/like/post/" + testPost1ByUser1.getId())
                 .expectStatus()
                 .isOk()
 
@@ -38,7 +38,7 @@ class LikeControllerTest extends AbstractControllerTests {
 
     @Test
     void delete_success_isOk() {
-        deleteRequest("/like/post/" + TestLike1ByUser1AndPost1.getId())
+        deleteRequest("/like/post/" + testLike1ByUser1AndPost1.getId())
                 .expectStatus()
                 .isOk()
 

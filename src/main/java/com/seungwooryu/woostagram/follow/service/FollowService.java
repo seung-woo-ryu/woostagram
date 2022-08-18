@@ -46,4 +46,14 @@ public class FollowService {
     public List<Follow> findAllByFromId(Long fromId) {
         return followRepository.findAllByFromUser_Id(fromId);
     }
+
+    @Transactional(readOnly = true)
+    public Long countFollowing(String nickname) {
+        return followRepository.countByFromUser_Nickname(nickname);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countFollower(String nickname) {
+        return followRepository.countByToUser_Nickname(nickname);
+    }
 }

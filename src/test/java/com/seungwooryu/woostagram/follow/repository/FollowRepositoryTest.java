@@ -91,4 +91,22 @@ class FollowRepositoryTest {
         assertThat(followList.get(1).getToUser()).isEqualTo(toUser2);
         assertThat(followList.get(2).getToUser()).isEqualTo(toUser3);
     }
+
+    @Test
+    void countByFromUser_Nickname() {
+        String nickname = fromUser.getNickname();
+
+        Long fromCnt = followRepository.countByFromUser_Nickname(nickname);
+
+        assertThat(fromCnt).isEqualTo(3);
+    }
+
+    @Test
+    void countByToUser_Nickname() {
+        String nickname = toUser.getNickname();
+
+        Long toCnt = followRepository.countByToUser_Nickname(nickname);
+
+        assertThat(toCnt).isEqualTo(1);
+    }
 }
