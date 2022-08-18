@@ -18,4 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p where user.id In :userIdList and id < :postId order by p.id desc")
     List<Post> findAllByIdLessThanOrderByIdDescAndAuthorIdIn(@Param("userIdList") List<Long> userIdList, @Param("postId") Long postId, Pageable page);
 
+    List<Post> findAllByUser_Nickname(String nickname);
+
+    Long countByUser_Nickname(String nickname);
 }

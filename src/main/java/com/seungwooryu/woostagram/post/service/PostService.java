@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -45,6 +47,17 @@ public class PostService {
         return postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
     }
+
+    @Transactional(readOnly = true)
+    public List<Post> findPostByNickname(String nickname) {
+        return postRepository.findAllByUser_Nickname(nickname);
+    }
+
+    @Transactional(readOnly = true)
+    public Long countPost(String nickname) {
+        return postRepository.countByUser_Nickname(nickname);
+    }
+
 
     //ToDo: 수정 페이지(프론트)작업되었을 때
     public Long update(PostDto postDto, String loggedInUserEmail, Long id) {

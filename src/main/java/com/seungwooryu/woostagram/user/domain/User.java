@@ -65,6 +65,10 @@ public class User extends BaseEntity {
     public void updateProfileUrl(String profileUrl) {
         this.profileUrl = profileUrl;
     }
+
+    public boolean isAuthor(User target) {
+        return this.id.equals(target.getId());
+    }
 }
 
 

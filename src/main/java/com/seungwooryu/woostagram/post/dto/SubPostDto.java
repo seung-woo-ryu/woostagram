@@ -7,18 +7,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ArticleDto {
+public class SubPostDto {
     @JsonProperty("image_url")
     private String imageUrl;
-    @JsonProperty("content")
-    private String content;
 
-    private ArticleDto(String imageUrl, String content) {
+    @JsonProperty("post_id")
+    private Long post_id;
+
+    private SubPostDto(String imageUrl, Long post_id) {
         this.imageUrl = imageUrl;
-        this.content = content;
+        this.post_id = post_id;
     }
 
-    public static ArticleDto of(Post post) {
-        return new ArticleDto(post.getImageUrl(), post.getContents());
+    public static SubPostDto of(Post post) {
+        return new SubPostDto(post.getImageUrl(), post.getId());
     }
 }
