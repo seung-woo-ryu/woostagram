@@ -29,7 +29,7 @@ public class FeedController {
     }
 
     @GetMapping({"/feed/post/{post_id}"})
-    public ResponseEntity<ApiResult<?>> getOne(@LoggedInUser String loggedInUserEmail, @PathVariable(required = false, name = "post_id") Long postId) {
+    public ResponseEntity<ApiResult<?>> getOne(@LoggedInUser String loggedInUserEmail, @PathVariable(required = true, name = "post_id") Long postId) {
         FeedDto feedDto = feedFacade.getOne(loggedInUserEmail, postId);
         return new ResponseEntity<>(success(feedDto), HttpStatus.OK);
     }
