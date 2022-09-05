@@ -6,6 +6,11 @@ spring:
       enabled: true
       path: /h2
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
   datasource:
     # 접속을 위한 드라이버. 역할이 뭐임?
     driver-class-name: org.h2.Driver
@@ -29,11 +34,15 @@ spring:
 cloud:
   aws:
     credentials:
-      access-key: AKIA5TB26NOSMTVNXANV
-      secret-key: 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
+      access-key: AKIA5TB26NOSKQ3Z4UEJ
+      secret-key: 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
     region:
       static: ap-northeast-2
     s3:
       bucket: woostagram
     stack:
       auto: false
+
+logging:
+  level:
+    com.seungwooryu.woostagram: DEBUG
