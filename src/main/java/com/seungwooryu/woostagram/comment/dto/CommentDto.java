@@ -3,9 +3,7 @@ package com.seungwooryu.woostagram.comment.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seungwooryu.woostagram.comment.domain.Comment;
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,6 +11,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentDto {
     @JsonProperty("comment_id")
     private Long commentId;
