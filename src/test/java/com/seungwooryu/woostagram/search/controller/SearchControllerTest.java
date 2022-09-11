@@ -24,4 +24,21 @@ class SearchControllerTest extends AbstractControllerTests {
                 .jsonPath("$.response[0].tags").isArray()
                 .jsonPath("$.error").doesNotExist();
     }
+
+    @Test
+    void getHashtag() {
+        String word = "post";
+
+        getRequest("/search/hashtag?hashtag=" + word)
+                .expectStatus()
+                .isOk()
+
+                .expectBody()
+                .consumeWith(System.out::println)
+
+                .jsonPath("$.success").isEqualTo(true)
+                .jsonPath("$.response").isArray()
+                .jsonPath("$.response.size()").isEqualTo(3)
+                .jsonPath("$.error").doesNotExist();
+    }
 }
